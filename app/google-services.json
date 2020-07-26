@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "418348736805",
+    "firebase_url": "https://noc-naukowcow-pk.firebaseio.com",
+    "project_id": "noc-naukowcow-pk",
+    "storage_bucket": "noc-naukowcow-pk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418348736805:android:edd3d18a0322657a4efacc",
+        "android_client_info": {
+          "package_name": "com.esspresso.nocnaukowcwpk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418348736805-5j88piur46sj8levjt3jvfqq54llqg8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH5WwNxyA2k6NDOnfVy1BDGDJu2uLWq3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418348736805-5j88piur46sj8levjt3jvfqq54llqg8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

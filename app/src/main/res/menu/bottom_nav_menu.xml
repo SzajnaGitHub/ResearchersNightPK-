@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/map_view"
+        android:enabled="true"
+        android:icon="@drawable/ic_map"
+        android:title="TODO" />
+    <item
+        android:id="@+id/list_view"
+        android:enabled="true"
+        android:icon="@drawable/ic_list"
+        android:title="TODO" />
+
+    <item
+        android:id="@+id/profile_view"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="TODO" />
+
+    <item
+        android:id="@+id/about_view"
+        android:enabled="true"
+        android:icon="@drawable/ic_help"
+        android:title="TODO" />
+</menu>

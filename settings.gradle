@@ -1,0 +1,4 @@
+include ':base'
+include ':app'
+rootProject.name = "Noc Naukowców PK"
+
