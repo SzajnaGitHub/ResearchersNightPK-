@@ -32,7 +32,7 @@ class StartupActivity : AppCompatActivity() {
                 if (granted) {
                     println("TEKST GRANTED")
                 } else {
-                    println("TEKST DUPA")
+                    println("TEKST NOT GRANTED")
                 }
             }.let(disposables::add)
     }
