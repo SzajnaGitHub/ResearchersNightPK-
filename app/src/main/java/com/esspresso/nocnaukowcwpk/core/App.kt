@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main
+package com.esspresso.nocnaukowcwpk.core
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
