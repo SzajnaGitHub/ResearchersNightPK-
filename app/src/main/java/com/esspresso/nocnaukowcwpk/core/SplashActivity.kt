@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main
+package com.esspresso.nocnaukowcwpk.core
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
