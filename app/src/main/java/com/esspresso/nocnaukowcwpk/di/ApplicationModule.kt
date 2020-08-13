@@ -1,11 +1,17 @@
 package com.esspresso.nocnaukowcwpk.di
 
+import android.content.Context
+import com.esspresso.nocnaukowcwpk.beacons.BeaconMonitorNotifier
+import com.esspresso.nocnaukowcwpk.core.App
+import com.jakewharton.rxrelay3.PublishRelay
+import com.jakewharton.rxrelay3.Relay
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import org.altbeacon.beacon.Beacon
 import javax.inject.Singleton
 
 @Module
@@ -15,5 +21,19 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+    @Provides
+    @Singleton
+    fun provideContext(): Context = App.appContext
+
+    @Provides
+    @Singleton
+    @EnterBeaconRange
+    fun provideEnterBeaconRangeRelay(): Relay<Boolean> = PublishRelay.create()
+
+    @Provides
+    @Singleton
+    @BeaconsInRange
+    fun provideBeaconsInRangeRelay(): Relay<Collection<Beacon>> = PublishRelay.create()
 
 }

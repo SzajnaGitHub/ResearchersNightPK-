@@ -13,15 +13,10 @@ class JsonParser @Inject constructor(private val moshi: Moshi) {
     fun <T> parseList(value: String, tag: Class<T>): List<T> {
         var list = listOf<T>()
         try {
-            list = moshi.adapter<List<T>>(Types.newParameterizedType(List::class.java, tag))
-                .fromJson(value) ?: emptyList()
-
-        } catch (malformedJson: MalformedJsonException) {
-        } catch (exception: Exception) {
+            list = moshi.adapter<List<T>>(Types.newParameterizedType(List::class.java, tag)).fromJson(value) ?: emptyList()
         }
+        catch (malformedJson: MalformedJsonException) { }
+        catch (exception: Exception) { }
         return list
     }
-
-    fun test() = println("TEKST JSON PARSER")
-
 }

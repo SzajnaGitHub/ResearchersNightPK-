@@ -11,6 +11,7 @@ import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
 import com.esspresso.nocnaukowcwpk.main.ListFragment
 import com.esspresso.nocnaukowcwpk.main.MapFragment
+import com.esspresso.nocnaukowcwpk.main.ProfileFragment
 import com.esspresso.nocnaukowcwpk.main.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -26,17 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding
-        println("TEKST REMOTE CONFIG VALUE: ${remoteConfig.testValue}")
-        remoteConfig.lol()
-        //startActivity(StartupActivity.createIntent(this))
         setupBottomNavigation()
+        selectDefaultItem()
     }
 
     private fun setupBottomNavigation() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             val fragment = when (it.itemId) {
-                R.id.profile_view -> ListFragment.newInstance()
+                R.id.profile_view -> ProfileFragment.newInstance()
                 R.id.map_view -> MapFragment.newInstance()
                 R.id.list_view -> ListFragment.newInstance()
                 R.id.about_view -> SettingsFragment.newInstance()
@@ -45,6 +43,10 @@ class MainActivity : AppCompatActivity() {
             fragment?.let { handleSelectedMenuItem(fragment, fragment::javaClass.name) }
             true
         }
+    }
+
+    private fun selectDefaultItem() {
+        binding.bottomNavigation.selectedItemId = R.id.map_view
     }
 
     private fun handleSelectedMenuItem(fragment: Fragment, tag: String) {
