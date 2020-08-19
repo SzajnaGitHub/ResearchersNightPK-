@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.toAndroidPair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
@@ -46,14 +47,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectDefaultItem() {
-        binding.bottomNavigation.selectedItemId = R.id.map_view
+        binding.bottomNavigation.selectedItemId = R.id.list_view
     }
 
     private fun handleSelectedMenuItem(fragment: Fragment, tag: String) {
         try {
             supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
-        } catch (e: Exception) {
-        }
+        } catch (e: Exception) { }
     }
 
     override fun onDestroy() {

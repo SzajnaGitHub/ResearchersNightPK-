@@ -1,5 +1,6 @@
 package com.esspresso.nocnaukowcwpk.config
 
+import com.esspresso.nocnaukowcwpk.beacons.BeaconConfigModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.faculties.FacultyModel
 import com.esspresso.nocnaukowcwpk.ultis.JsonParser
@@ -14,7 +15,7 @@ class RemoteConfigManager @Inject constructor(private val jsonParser: JsonParser
     private val remoteConfig = Firebase.remoteConfig
 
     fun getFaculties() = jsonParser.parseList(remoteConfig.getString("faculties"), FacultyModel::class.java)
-    fun getBeacons() = jsonParser.parseList(remoteConfig.getString("beacons"), BeaconModel::class.java)
+    fun getBeacons() = jsonParser.parseList(remoteConfig.getString("beacons"), BeaconConfigModel::class.java)
 
     init {
         val defaults = mapOf(
@@ -25,9 +26,9 @@ class RemoteConfigManager @Inject constructor(private val jsonParser: JsonParser
                 FacultyModel(id = "WA", lat = 50.075672, lng = 19.909326)
             ),
             "beacons" to listOf(
-                BeaconModel(major = "48660", minor = "53082"),
-                BeaconModel(major = "45508", minor = "659"),
-                BeaconModel(major = "62626", minor = "16444")
+                BeaconConfigModel(major = "48660", minor = "53082"),
+                BeaconConfigModel(major = "45508", minor = "659"),
+                BeaconConfigModel(major = "62626", minor = "16444")
             )
         )
 
