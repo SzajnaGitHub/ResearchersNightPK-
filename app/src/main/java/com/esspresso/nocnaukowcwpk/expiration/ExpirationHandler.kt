@@ -23,7 +23,6 @@ class ExpirationHandler {
 
     private fun getCurrentTimeInMinutes() = TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis())
 
-
     companion object {
         private const val EXPIRATION_TIME_IN_MIN = 5
     }

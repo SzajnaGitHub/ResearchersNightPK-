@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="kotlin.jvm.functions.Function1" />
+        <import type="kotlin.jvm.functions.Function0" />
         <import type="java.util.ArrayList" />
-        <import type="com.esspresso.nocnaukowcwpk.beacons.BeaconModel"/>
+        <import type="com.esspresso.nocnaukowcwpk.beacons.BeaconModel" />
+        <import type="android.view.View"/>
 
         <variable
             name="list"
@@ -15,26 +17,72 @@
         <variable
             name="beaconClickHandler"
             type="Function1&lt;BeaconModel, kotlin.Unit>" />
-        
+
+        <variable
+            name="onListEmptyAction"
+            type="Function0&lt;kotlin.Unit>" />
+
+        <variable
+            name="onListNoLongerEmptyAction"
+            type="Function0&lt;kotlin.Unit>" />
+
+        <variable
+            name="loading"
+            type="boolean" />
+
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".main.ListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
+            clickHandler="@{beaconClickHandler}"
+            itemLayout="@{@layout/item_beacon}"
             items="@{list}"
             variableName="@{`model`}"
-            itemLayout="@{@layout/item_beacon}"
-            clickHandler="@{beaconClickHandler}"
+            onListEmptyAction="@{onListEmptyAction}"
+            onListNoLongerEmptyAction="@{onListNoLongerEmptyAction}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layoutAnimation="@anim/recycler_item_fall_down"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_beacon" />
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/ripple_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_beacon"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:rb_color="#0099CC"
+            app:rb_duration="4000"
+            app:rb_radius="28dp"
+            app:rb_rippleAmount="4"
+            app:rb_scale="6"
+            app:rb_type="fillRipple" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/centerImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_baseline_phone_android_24"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycler"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

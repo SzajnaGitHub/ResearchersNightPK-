@@ -17,9 +17,7 @@ import com.esspresso.nocnaukowcwpk.status.StatusManager
 import com.esspresso.nocnaukowcwpk.ultis.recyclerview.RecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class ListFragment : Fragment() {
@@ -37,20 +35,37 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
+        startRippleLoadingAnimation()
         getNearbyBeacons()
         binding.list = ArrayList()
         binding.beaconClickHandler = ::clickHandler
+        binding.onListEmptyAction = ::startRippleLoadingAnimation
+        binding.onListNoLongerEmptyAction = ::stopRippleLoadingAnimation
+        Handler().postDelayed({ (binding.recycler.adapter as RecyclerAdapter<BeaconModel>).removeAllItems() }, 20_000)
         return binding.root
     }
 
     private fun clickHandler(model: BeaconModel) {
-
     }
 
     private fun getNearbyBeacons() {
         beaconManager.getNearbyBeacons().subscribe {
             binding.list = it
         }.let(disposable::add)
+    }
+
+    private fun startRippleLoadingAnimation() {
+        if (!binding.rippleBackground.isRippleAnimationRunning) {
+            binding.loading = true
+            binding.rippleBackground.startRippleAnimation()
+        }
+    }
+
+    private fun stopRippleLoadingAnimation() {
+        if (binding.rippleBackground.isRippleAnimationRunning) {
+            binding.rippleBackground.stopRippleAnimation()
+            binding.loading = false
+        }
     }
 
     override fun onStart() {

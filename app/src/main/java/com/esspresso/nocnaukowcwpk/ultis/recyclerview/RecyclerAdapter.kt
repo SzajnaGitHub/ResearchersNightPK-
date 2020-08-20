@@ -14,12 +14,16 @@ class RecyclerAdapter<T : RecyclerModel>(
     private var items: ArrayList<T>,
     private val itemLayout: Int,
     private val variableId: Int,
-    private val clickHandler: ((T) -> Unit)? = null
+    private val clickHandler: ((T) -> Unit)? = null,
+    private val onListEmptyAction: (() -> Unit)? = null,
+    private val onListNoLongerEmptyAction: (() -> Unit)? = null
 ) : RecyclerView.Adapter<DataBindingViewHolder<ViewDataBinding>>() {
 
     private var expirationHandler = ExpirationHandler()
 
     override fun getItemCount() = items.size
+
+    private fun isListEmpty() = itemCount == 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context), itemLayout, parent, false)
@@ -40,7 +44,14 @@ class RecyclerAdapter<T : RecyclerModel>(
         notifyDataSetChanged()
     }
 
+    fun removeAllItems() {
+        items.clear()
+        notifyDataSetChanged()
+        if (isListEmpty()) onListEmptyAction?.invoke()
+    }
+
     private fun addItem(item: T) {
+        if (isListEmpty()) onListNoLongerEmptyAction?.invoke()
         items.add(item)
         notifyItemInserted(items.lastIndex)
         expirationHandler.setExpirationTimer(item.getId())
@@ -50,6 +61,7 @@ class RecyclerAdapter<T : RecyclerModel>(
         val index = items.indexOf(item)
         items.remove(item)
         notifyItemRemoved(index)
+        if (isListEmpty()) onListEmptyAction?.invoke()
     }
 
     private fun updateItem(itemIndex: Int, item: T) {
@@ -69,6 +81,7 @@ class RecyclerAdapter<T : RecyclerModel>(
             updateItem(itemIndex, item)
         } else {
             addItem(item)
+            //    onItemAdditionAction?.invoke()
         }
     }
 
