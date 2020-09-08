@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="kotlin.jvm.functions.Function1" />
@@ -29,6 +30,10 @@
         <variable
             name="loading"
             type="boolean" />
+
+        <variable
+            name="statusModel"
+            type="com.esspresso.nocnaukowcwpk.status.StatusModel" />
 
     </data>
 
@@ -63,7 +68,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
             app:rb_color="#0099CC"
             app:rb_duration="4000"
             app:rb_radius="28dp"
@@ -72,17 +76,29 @@
             app:rb_type="fillRipple" />
 
         <ImageView
-            android:id="@+id/centerImage"
+            android:id="@+id/scanImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerInParent="true"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_phone_android_24"
-            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/recycler"
             tools:ignore="ContentDescription" />
+
+        <include
+            android:id="@+id/slide_bar"
+            layout="@layout/motion_left_status_bar"
+            bind:model="@{statusModel}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{statusModel == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

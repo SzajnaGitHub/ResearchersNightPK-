@@ -1,7 +1,8 @@
 package com.esspresso.nocnaukowcwpk.di
 
 import android.content.Context
-import com.esspresso.nocnaukowcwpk.beacons.BeaconMonitorNotifier
+import android.location.LocationManager
+import android.net.ConnectivityManager
 import com.esspresso.nocnaukowcwpk.core.App
 import com.jakewharton.rxrelay3.PublishRelay
 import com.jakewharton.rxrelay3.Relay
@@ -36,4 +37,16 @@ class ApplicationModule {
     @BeaconsInRange
     fun provideBeaconsInRangeRelay(): Relay<Collection<Beacon>> = PublishRelay.create()
 
+    @Provides
+    @Singleton
+    @RemotelyCloseDialogActivity
+    fun provideRemoteCloseDialogActivityRelay(): Relay<Unit> = PublishRelay.create()
+
+    @Provides
+    @Singleton
+    fun provideLocationManager(context: Context) = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    @Provides
+    @Singleton
+    fun provideConnectivityManager(context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }

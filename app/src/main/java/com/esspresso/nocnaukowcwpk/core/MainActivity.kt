@@ -14,6 +14,7 @@ import com.esspresso.nocnaukowcwpk.main.ListFragment
 import com.esspresso.nocnaukowcwpk.main.MapFragment
 import com.esspresso.nocnaukowcwpk.main.ProfileFragment
 import com.esspresso.nocnaukowcwpk.main.SettingsFragment
+import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -22,6 +23,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     internal lateinit var remoteConfig: RemoteConfigManager
+    @Inject
+    internal lateinit var permissionManager: PermissionManager
 
     private val disposables = CompositeDisposable()
     private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupBottomNavigation()
         selectDefaultItem()
+        permissionManager.init(this)
     }
 
     private fun setupBottomNavigation() {

@@ -1,9 +1,8 @@
 package com.esspresso.nocnaukowcwpk.config
 
 import com.esspresso.nocnaukowcwpk.beacons.BeaconConfigModel
-import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.faculties.FacultyModel
-import com.esspresso.nocnaukowcwpk.ultis.JsonParser
+import com.esspresso.nocnaukowcwpk.utils.JsonParser
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings

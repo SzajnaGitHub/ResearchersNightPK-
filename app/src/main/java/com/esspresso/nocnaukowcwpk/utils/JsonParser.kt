@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.ultis
+package com.esspresso.nocnaukowcwpk.utils
 
 import android.util.MalformedJsonException
 import com.squareup.moshi.Moshi

@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.ultis.recyclerview
+package com.esspresso.nocnaukowcwpk.utils.recyclerview
 
 import android.os.Handler
 import android.view.LayoutInflater
@@ -7,8 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.esspresso.nocnaukowcwpk.expiration.ExpirationHandler
-import com.esspresso.nocnaukowcwpk.ultis.itemIndex
-import java.util.concurrent.TimeUnit
+import com.esspresso.nocnaukowcwpk.utils.itemIndex
 
 class RecyclerAdapter<T : RecyclerModel>(
     private var items: ArrayList<T>,

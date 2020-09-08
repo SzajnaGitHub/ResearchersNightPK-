@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.ultis
+package com.esspresso.nocnaukowcwpk.utils
 
 import org.altbeacon.beacon.Region
 import java.util.*

@@ -8,3 +8,6 @@ annotation class EnterBeaconRange
 
 @Qualifier
 annotation class BeaconsInRange
+
+@Qualifier
+annotation class RemotelyCloseDialogActivity

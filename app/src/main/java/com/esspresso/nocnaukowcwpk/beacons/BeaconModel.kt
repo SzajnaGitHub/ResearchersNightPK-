@@ -2,8 +2,8 @@ package com.esspresso.nocnaukowcwpk.beacons
 
 import androidx.annotation.Keep
 import com.esspresso.nocnaukowcwpk.R
-import com.esspresso.nocnaukowcwpk.ultis.RssiResolver
-import com.esspresso.nocnaukowcwpk.ultis.recyclerview.RecyclerModel
+import com.esspresso.nocnaukowcwpk.utils.RssiResolver
+import com.esspresso.nocnaukowcwpk.utils.recyclerview.RecyclerModel
 import org.altbeacon.beacon.Beacon
 import kotlin.math.roundToInt
 

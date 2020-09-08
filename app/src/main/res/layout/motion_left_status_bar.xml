@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.esspresso.nocnaukowcwpk.status.StatusModel" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layoutDescription="@xml/motion_left_status_bar_scene"
+        tools:context=".main.ProfileFragment">
+
+        <View
+            android:id="@+id/handle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/view_circle_red"
+            app:layout_constraintBottom_toBottomOf="@+id/view_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_background" />
+
+        <ImageView
+            android:id="@+id/sync_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_sync"
+            rotate="@{true}"
+            app:layout_constraintStart_toStartOf="@id/handle"
+            app:layout_constraintEnd_toEndOf="@id/handle"
+            app:layout_constraintTop_toTopOf="@id/handle"
+            app:layout_constraintBottom_toBottomOf="@id/handle" />
+
+        <TextView
+            android:id="@+id/warning_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textSize="16dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="@id/handle"
+            app:layout_constraintEnd_toEndOf="@id/handle"
+            app:layout_constraintTop_toTopOf="@id/handle"
+            app:layout_constraintBottom_toBottomOf="@id/handle"/>
+
+        <View
+            android:id="@+id/view_background"
+            android:layout_width="50dp"
+            android:layout_height="130dp"
+            android:background="@drawable/bg_gradient_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/handle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/wifi_icon"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/ic_baseline_wifi_24"
+            android:tint="@{model.connectionAvailable ? @color/item_available : @color/item_unavailable}"
+            app:layout_constraintBottom_toTopOf="@+id/bluetooth_icon"
+            app:layout_constraintEnd_toEndOf="@id/view_background"
+            app:layout_constraintStart_toStartOf="@id/view_background"
+            app:layout_constraintTop_toTopOf="@id/view_background" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bluetooth_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            android:tint="@{model.bluetoothAvailable ? @color/item_available : @color/item_unavailable}"
+            app:layout_constraintBottom_toTopOf="@+id/location_icon"
+            app:layout_constraintEnd_toEndOf="@id/view_background"
+            app:layout_constraintStart_toStartOf="@id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/wifi_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/location_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:tint="@{model.locationAvailable ? @color/item_available : @color/item_unavailable}"
+            app:layout_constraintBottom_toBottomOf="@+id/view_background"
+            app:layout_constraintEnd_toEndOf="@id/view_background"
+            app:layout_constraintStart_toStartOf="@id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/bluetooth_icon" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>
