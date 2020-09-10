@@ -2,89 +2,44 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/startState">
-        <Constraint
-            android:id="@+id/imageView3"
-            app:layout_constraintEnd_toEndOf="@+id/handle" />
-        <Constraint
-            android:id="@+id/imageView4"
-            app:layout_constraintBottom_toBottomOf="@+id/handle" />
-    </ConstraintSet>
+    <ConstraintSet android:id="@+id/startState" />
 
     <ConstraintSet android:id="@+id/endState">
-        <Constraint
-            android:id="@+id/handle"
-            android:layout_width="50dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="50dp"
-            app:layout_constraintBottom_toBottomOf="@+id/view_background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/view_background" />
+        <Constraint android:id="@+id/handle">
+            <Layout
+                android:layout_width="200dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </Constraint>
 
-        <Constraint
-            android:id="@+id/view_background"
-            android:layout_width="50dp"
-            android:layout_height="160dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/handle"
-            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint android:id="@+id/sync_icon">
+            <Transform android:rotation="-360"/>
+        </Constraint>
 
-        <Constraint android:id="@+id/wifi_icon"
-            app:layout_constraintBottom_toTopOf="@+id/bluetooth_icon"
-            app:layout_constraintEnd_toEndOf="@id/view_background"
-            app:layout_constraintStart_toStartOf="@id/view_background"
-            app:layout_constraintTop_toTopOf="@id/view_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <Constraint android:id="@+id/bluetooth_icon">
+            <PropertySet android:visibility="visible"/>
+        </Constraint>
 
-        <Constraint android:id="@+id/motion_root" />
+        <Constraint android:id="@+id/location_icon">
+             <PropertySet android:visibility="visible"/>
+        </Constraint>
+
+        <Constraint android:id="@+id/filter_view">
+            <PropertySet android:alpha="0.1"/>
+        </Constraint>
+
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/endState"
         app:constraintSetStart="@+id/startState"
-        app:duration="1000"
+        app:duration="500"
         app:motionInterpolator="easeIn">
 
-        <OnSwipe
-            app:dragDirection="dragRight"
-            app:touchRegionId="@id/motion_root" />
-
-        <OnClick app:targetId="@id/handle" />
-
-        <KeyFrameSet>
-            <KeyAttribute
-                android:scaleY="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/bluetooth_icon" />
-
-            <KeyAttribute
-                android:scaleX="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/bluetooth_icon" />
-
-            <KeyAttribute
-                android:scaleY="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/wifi_icon" />
-
-            <KeyAttribute
-                android:scaleX="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/wifi_icon" />
-
-            <KeyAttribute
-                android:scaleY="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/location_icon" />
-
-            <KeyAttribute
-                android:scaleX="1.2"
-                app:framePosition="80"
-                app:motionTarget="@+id/location_icon" />
-
-        </KeyFrameSet>
-
+        <OnClick app:targetId="@id/sync_icon"/>
     </Transition>
 
 </MotionScene>

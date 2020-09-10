@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
@@ -14,7 +15,10 @@ import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentListBinding
-import com.esspresso.nocnaukowcwpk.status.*
+import com.esspresso.nocnaukowcwpk.status.BluetoothBroadcastReceiver
+import com.esspresso.nocnaukowcwpk.status.LocationBroadCastReceiver
+import com.esspresso.nocnaukowcwpk.status.PermissionManager
+import com.esspresso.nocnaukowcwpk.status.StatusManager
 import com.esspresso.nocnaukowcwpk.utils.DialogActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -26,21 +30,28 @@ import javax.inject.Inject
 class ListFragment : Fragment() {
     @Inject
     internal lateinit var beaconService: BeaconService
+
     @Inject
     internal lateinit var config: RemoteConfigManager
+
     @Inject
     internal lateinit var statusManager: StatusManager
+
     @Inject
     internal lateinit var beaconManager: BeaconManager
+
     @Inject
     internal lateinit var permissionManager: PermissionManager
+
     @Inject
     internal lateinit var bluetoothReceiver: BluetoothBroadcastReceiver
+
     @Inject
     internal lateinit var locationReceiver: LocationBroadCastReceiver
 
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentListBinding
+    private val slideBarLayout by lazy(LazyThreadSafetyMode.NONE) { binding.slideBar.root as MotionLayout }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
@@ -53,11 +64,29 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeToStatus()
         setupButtons()
+        subscribeToStatus()
+        statusManager.register()
     }
 
     private fun setupButtons() {
+        binding.slideBar.rotate = true
+        slideBarLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+            override fun onTransitionChange(p0: MotionLayout?, startState: Int, endState: Int, p3: Float) {}
+
+            override fun onTransitionCompleted(p0: MotionLayout?, state: Int) {
+                binding.slideBar.rotate = true
+                if (state == R.id.startState && statusManager.isAllEnabled()) {
+                    binding.statusModel = null
+                }
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+                binding.slideBar.rotate = false
+            }
+        })
+
         binding.scanImage.setOnClickListener {
             if (permissionManager.checkIfAllPermissionsGranted()) {
                 startBeaconScan()
@@ -88,8 +117,8 @@ class ListFragment : Fragment() {
 
     private fun getNearbyBeacons() {
         beaconManager.getNearbyBeacons().observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                if(it.isNotEmpty()) {
+            .subscribe {
+                if (it.isNotEmpty()) {
                     binding.list = it
                     stopRippleLoadingAnimation()
                 }
@@ -98,12 +127,16 @@ class ListFragment : Fragment() {
 
     private fun subscribeToStatus() {
         statusManager.getCurrentStatus().subscribe({
+            println("TEKST PIES $it")
             if (it.isAllEnabled) {
-                binding.statusModel = null
-                startRippleLoadingAnimation()
+                if (slideBarLayout.currentState == R.id.endState) {
+                    binding.statusModel = it
+                    slideBarLayout.transitionToState(R.id.startState)
+                } else {
+                    binding.statusModel = null
+                }
             } else {
                 binding.statusModel = it
-                stopRippleLoadingAnimation()
             }
         }, {}).let(disposable::add)
     }
@@ -144,7 +177,6 @@ class ListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         beaconService.bindService()
-        NetworkManager()
         bluetoothReceiver.register(requireActivity())
         locationReceiver.register(requireActivity())
     }

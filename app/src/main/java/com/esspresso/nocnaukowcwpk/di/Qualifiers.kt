@@ -11,3 +11,9 @@ annotation class BeaconsInRange
 
 @Qualifier
 annotation class RemotelyCloseDialogActivity
+
+@Qualifier
+annotation class BluetoothState
+
+@Qualifier
+annotation class LocationState

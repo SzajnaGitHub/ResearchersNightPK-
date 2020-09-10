@@ -49,4 +49,14 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideConnectivityManager(context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    @Provides
+    @Singleton
+    @BluetoothState
+    fun provideBluetoothStateRelay(): Relay<Boolean> = PublishRelay.create()
+
+    @Provides
+    @Singleton
+    @LocationState
+    fun provideLocationStateRelay(): Relay<Boolean> = PublishRelay.create()
 }

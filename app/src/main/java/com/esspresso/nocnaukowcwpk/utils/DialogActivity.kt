@@ -1,6 +1,5 @@
 package com.esspresso.nocnaukowcwpk.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,14 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.databinding.ActivityDialogBinding
-import com.esspresso.nocnaukowcwpk.di.RemotelyCloseDialogActivity
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
-import com.jakewharton.rxrelay3.Relay
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.io.Serializable
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DialogActivity : AppCompatActivity() {
@@ -52,17 +46,15 @@ class DialogActivity : AppCompatActivity() {
         fun createPermissionIntent(context: Context, permission: String, handler: (() -> Unit)?) = createIntent(context).apply {
             this@Companion.handler = handler
             val model = when (permission) {
-                PermissionManager.LOCATION_PERMISSION -> SystemDialogModel("Warning", "Please enable location permission for app to work properly", "Settings")
-                PermissionManager.BLUETOOTH_PERMISSION -> SystemDialogModel("Warning", "Please enable bluetooth permission for app to work properly", "Settings")
+                PermissionManager.LOCATION_PERMISSION -> SystemDialogModel.createLocationPermissionModel()
+                PermissionManager.BLUETOOTH_PERMISSION -> SystemDialogModel.createBluetoothPermissionModel()
                 else -> null
             }
             putExtra(MODEL, model)
         }
+
+        fun createNoBluetoothIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoBluetoothModel()) }
+        fun createNoLocationIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoLocationModel()) }
+        fun createNoInternetIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoInternetModel()) }
     }
 }
-
-data class SystemDialogModel(
-    val header: String,
-    val message: String,
-    val buttonText: String
-) : Serializable

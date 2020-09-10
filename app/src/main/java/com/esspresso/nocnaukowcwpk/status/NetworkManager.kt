@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
+import com.esspresso.nocnaukowcwpk.utils.DialogActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,12 +14,10 @@ class NetworkManager @Inject constructor() : ConnectivityManager.NetworkCallback
 
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
-        println("TEKST INTERNET AVAILABLE")
     }
 
     override fun onLost(network: Network) {
         super.onLost(network)
-        println("TEKST INTERNET LOST")
     }
 
     fun register(context: Context) {

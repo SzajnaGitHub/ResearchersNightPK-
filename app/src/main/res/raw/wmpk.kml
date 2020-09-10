@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Shapes</name>
+<Style id="thickLine"><LineStyle><width>1</width><color>ff0000ff</color></LineStyle></Style>
+<Style id="transparent50Poly"><PolyStyle><color>7fffff00</color></PolyStyle></Style>
+
+
+<Placemark>
+<name>Shape</name>
+<description>Shape</description>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>
+19.997579846059555,50.07467944344386,0
+19.997799787198776,50.074693214731255,0
+19.997684364724797,50.075552116318185,0
+19.997464799122458,50.07553604953736,0
+</coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+
+<Placemark>
+<name>Shape2</name>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995814493892066,50.07455032621854,0 19.995747276054132,50.07505310777716,0 19.99599382287409,50.07506537493362,0 19.996066982603764,50.07456393049315,0 19.995814493892066,50.07455032621854,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<name>Shape3</name>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.996271615257427,50.07508222940073,0 19.996335638765842,50.07458464952191,0 19.996550506763956,50.07459580736024,0 19.99648543451269,50.07509163610645,0 19.996271615257427,50.07508222940073,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.996837056575995,50.07460864908237,0 19.9970591607873,50.074621774860134,0 19.996985039044834,50.07512176668228,0 19.996771630613107,50.075108856215834,0 19.996837056575995,50.07460864908237,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995677965829973,50.07539401136402,0 19.99572624559224,50.07505145442288,0 19.997025059486315,50.07512819838647,0 19.996982144142077,50.07546214786481,0 19.995677965829973,50.07539401136402,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995179063013712,50.07551726813158,0 19.995402398425835,50.075530178488016,0 19.995349206842018,50.07592184899266,0 19.99563211515012,50.07593712611849,0 19.995687081447553,50.07554456827856,0 19.995905546342048,50.07555677198644,0 19.99585236309532,50.07597362642059,0 19.99612594841484,50.07598395460772,0 19.996069491264485,50.07640866566224,0 19.995031684451916,50.07634923525747,0 19.995078857512574,50.07600843661569,0 19.995110708744626,50.076010373149536,0 19.995179063013712,50.07551726813158,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.994225428877535,50.075671859466986,0 19.99473912958239,50.07569857781842,0 19.994665304748462,50.07631341552198,0 19.9941500833689,50.076287069542055,0 19.994225428877535,50.075671859466986,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+<Placemark>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.994278527486962,50.07528486198021,0 19.99471036313836,50.07530896142622,0 19.994731150258225,50.07519018546789,0 19.994297302950066,50.075165225265316,0 19.994278527486962,50.07528486198021,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#transparent50Poly</styleUrl></Placemark>
+
+</Document>
+</kml>

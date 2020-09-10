@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.util.toAndroidPair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
 import com.esspresso.nocnaukowcwpk.main.ListFragment
-import com.esspresso.nocnaukowcwpk.main.MapFragment
+import com.esspresso.nocnaukowcwpk.main.map.MapFragment
 import com.esspresso.nocnaukowcwpk.main.ProfileFragment
 import com.esspresso.nocnaukowcwpk.main.SettingsFragment
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectDefaultItem() {
-        binding.bottomNavigation.selectedItemId = R.id.list_view
+        binding.bottomNavigation.selectedItemId = R.id.map_view
     }
 
     private fun handleSelectedMenuItem(fragment: Fragment, tag: String) {
