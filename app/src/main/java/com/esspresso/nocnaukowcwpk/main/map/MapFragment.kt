@@ -1,6 +1,5 @@
 package com.esspresso.nocnaukowcwpk.main.map
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,21 @@ import com.esspresso.nocnaukowcwpk.databinding.FragmentMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.data.kml.KmlLayer
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
+class MapFragment : Fragment() {
     @Inject
     internal lateinit var config: RemoteConfigManager
+    @Inject
+    internal lateinit var markerHelper: MarkerHelper
 
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentMapBinding
@@ -40,41 +44,45 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun onMapReady(googleMap: GoogleMap) {
-        val layer = KmlLayer(googleMap, R.raw.wmpk, requireContext())
-        layer.addLayerToMap()
         map = googleMap
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-        googleMap.setOnMarkerClickListener(this)
-
-/*
-      val faculties = config.getFaculties()
-        faculties.forEach { addMarker(it.latLng) }
-        zoomToAllMarkers(faculties.map { it.latLng })
-*/
-/*        val polygon = map.addPolygon(
-            PolygonOptions()
-            .add(LatLng(50.07467944344386, 19.997579846059555), LatLng(50.074693214731255, 19.997799787198776), LatLng(50.075552116318185, 19.997684364724797), LatLng(50.07553604953736, 19.997464799122458))
-            .strokeColor(Color.TRANSPARENT)
-            .fillColor(Color.YELLOW)
-            .strokeWidth(0f))*/
-
-        val bounds = LatLngBounds.Builder()
-            .include(LatLng(50.07507, 19.9967715))
-            .include(LatLng(50.07507, 19.9967715))
-            .include(LatLng(50.0755626, 19.995489))
-            .include(LatLng(50.0757269, 19.9955914))
-            .build()
-        map.setLatLngBoundsForCameraTarget(bounds)
+        setupMap()
+        setupLatLngCameraMoveBoundaries()
+        addBuildingMarkers()
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(50.075219, 19.997690), 16.5f))
-
     }
 
-    private fun addMarker(latLng: LatLng) {
-        map.addMarker(MarkerOptions().position(latLng).title("Marker in Sydney"))
+    private fun addBuildingMarkers() {
+        markerHelper.getBuildingMarkers().forEach(map::addMarker)
     }
 
-    override fun onMarkerClick(marker: Marker?): Boolean {
+    private fun setupMap() {
+        val layer = KmlLayer(map, R.raw.wmpk, requireContext())
+        layer.addLayerToMap()
+        map.isBuildingsEnabled = false
+        map.setMaxZoomPreference(17.5f)
+        map.setMinZoomPreference(15f)
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+        map.setOnMarkerClickListener(::onMarkerClick)
+    }
+
+    private fun setupLatLngCameraMoveBoundaries() {
+        val topRightBoundary = LatLng(50.07507, 19.9970)
+        val topLeftBoundary = LatLng(50.07507, 19.9960)
+        val bottomLeftBoundary = LatLng(50.07556, 19.9950)
+        val bottomRightBoundary = LatLng(50.07572, 19.9970)
+        map.setLatLngBoundsForCameraTarget(
+            LatLngBounds.Builder()
+                .include(topRightBoundary)
+                .include(topLeftBoundary)
+                .include(bottomLeftBoundary)
+                .include(bottomRightBoundary)
+                .build()
+        )
+    }
+
+    private fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let {
+            println("TEKST PIESEEK")
             it.showInfoWindow()
             zoomToMarker(it)
         }
@@ -82,16 +90,7 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun zoomToMarker(marker: Marker) {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 17f))
-    }
-
-    private fun zoomToAllMarkers(markers: List<LatLng>) {
-        val builder = LatLngBounds.Builder()
-        markers.forEach {
-            builder.include(it)
-        }
-        val cu = CameraUpdateFactory.newLatLngBounds(builder.build(), 100)
-        map.animateCamera(cu)
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 17.5f))
     }
 
     override fun onDestroy() {
@@ -102,4 +101,5 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     companion object {
         fun newInstance() = MapFragment()
     }
+
 }

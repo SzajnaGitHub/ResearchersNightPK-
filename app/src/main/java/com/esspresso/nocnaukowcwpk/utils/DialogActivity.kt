@@ -48,6 +48,7 @@ class DialogActivity : AppCompatActivity() {
             val model = when (permission) {
                 PermissionManager.LOCATION_PERMISSION -> SystemDialogModel.createLocationPermissionModel()
                 PermissionManager.BLUETOOTH_PERMISSION -> SystemDialogModel.createBluetoothPermissionModel()
+                PermissionManager.CAMERA_PERMISSION -> SystemDialogModel.createCameraPermissionModel()
                 else -> null
             }
             putExtra(MODEL, model)

@@ -1,6 +1,7 @@
 package com.esspresso.nocnaukowcwpk.di
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import com.esspresso.nocnaukowcwpk.core.App
@@ -59,4 +60,9 @@ class ApplicationModule {
     @Singleton
     @LocationState
     fun provideLocationStateRelay(): Relay<Boolean> = PublishRelay.create()
+
+    @Provides
+    @Singleton
+    @QRCodeImageBitmap
+    fun provideQrCodeImageRelay(): Relay<Bitmap> = PublishRelay.create()
 }

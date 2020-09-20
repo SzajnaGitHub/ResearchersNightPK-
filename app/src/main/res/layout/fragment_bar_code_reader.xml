@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="missingPermission"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        tools:context=".main.barcode.BarCodeReaderFragment">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:baselineAlignBottom="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewFinder"
+            tools:src="@color/cyan_blue" />
+
+        <TextView
+            android:id="@+id/missing_permission_text"
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Camera permission required"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{missingPermission ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/missing_permission_image"
+            app:layout_constraintEnd_toEndOf="@+id/missing_permission_image"
+            app:layout_constraintStart_toStartOf="@+id/missing_permission_image" />
+
+        <ImageView
+            android:id="@+id/missing_permission_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{missingPermission ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/viewFinder"
+            app:layout_constraintEnd_toEndOf="@+id/viewFinder"
+            app:layout_constraintStart_toStartOf="@+id/viewFinder"
+            app:layout_constraintTop_toTopOf="@id/viewFinder" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

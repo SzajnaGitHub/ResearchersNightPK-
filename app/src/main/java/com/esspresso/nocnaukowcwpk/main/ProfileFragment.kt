@@ -16,15 +16,9 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        animation()
         return binding.root
     }
 
-    private fun animation() {
-       /* binding.view.setOnTouchListener { view, motionEvent ->
-            motionEvent.
-        }*/
-    }
 
     override fun onDestroy() {
         disposable.dispose()

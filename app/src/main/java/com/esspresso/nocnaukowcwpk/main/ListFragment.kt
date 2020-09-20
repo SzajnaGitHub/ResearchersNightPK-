@@ -30,22 +30,16 @@ import javax.inject.Inject
 class ListFragment : Fragment() {
     @Inject
     internal lateinit var beaconService: BeaconService
-
     @Inject
     internal lateinit var config: RemoteConfigManager
-
     @Inject
     internal lateinit var statusManager: StatusManager
-
     @Inject
     internal lateinit var beaconManager: BeaconManager
-
     @Inject
     internal lateinit var permissionManager: PermissionManager
-
     @Inject
     internal lateinit var bluetoothReceiver: BluetoothBroadcastReceiver
-
     @Inject
     internal lateinit var locationReceiver: LocationBroadCastReceiver
 
@@ -99,7 +93,7 @@ class ListFragment : Fragment() {
 
     private fun shouldShowPermission(permission: String) {
         if (!permissionManager.checkPermissionGranted(permission)) {
-            permissionManager.checkPermission(permission).subscribe({ granted ->
+            permissionManager.requestPermission(permission).subscribe({ granted ->
                 if (!granted) {
                     permissionManager.shouldShowPermission(requireActivity(), PermissionManager.LOCATION_PERMISSION).subscribe { canAskAgain ->
                         if (!canAskAgain) startActivity(DialogActivity.createPermissionIntent(requireContext(), permission, ::openSettings))

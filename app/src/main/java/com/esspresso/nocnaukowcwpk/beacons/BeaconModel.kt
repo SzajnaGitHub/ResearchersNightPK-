@@ -8,7 +8,7 @@ import org.altbeacon.beacon.Beacon
 import kotlin.math.roundToInt
 
 @Keep
-data class BeaconConfigModel(private val major: String, private val minor: String)
+data class BeaconConfigModel(val major: String, val minor: String)
 
 @Keep
 data class BeaconModel(
@@ -28,9 +28,13 @@ data class BeaconModel(
 
     companion object {
         fun create(beacon: Beacon) = BeaconModel(
-            id = Pair(beacon.id2.toString(), beacon.id3.toString()),
+            id = BeaconId(beacon.id2.toString(), beacon.id3.toString()),
             distance = beacon.distance,
             signalStrength = RssiResolver.resolve(beacon.runningAverageRssi.roundToInt())
+        )
+
+        fun create(beacon: BeaconConfigModel) = BeaconModel(
+            id = BeaconId(beacon.major, beacon.minor)
         )
     }
 }

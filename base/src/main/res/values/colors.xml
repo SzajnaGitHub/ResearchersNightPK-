@@ -6,5 +6,9 @@
     
     <color name="item_available">#00FF66</color>
     <color name="item_unavailable">#FD1D1D</color>
-    
+
+    <color name="cyan_blue">#013571</color>
+    <color name="light_cyan_blue">#004179</color>
+    <color name="gray">#BFBFBF</color>
+
 </resources>
