@@ -56,7 +56,7 @@ class RecyclerAdapter<T : RecyclerModel>(
         expirationHandler.setExpirationTimer(item.getId())
     }
 
-    private fun removeItem(item: T) {
+    fun removeItem(item: T) {
         val index = items.indexOf(item)
         items.remove(item)
         notifyItemRemoved(index)

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/icon_map">
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="#fff" />
+        </Constraint>
+        <Constraint android:id="@+id/title">
+            <CustomAttribute
+                app:attributeName="textColor"
+                app:customColorValue="@android:color/white" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/blue_square_state">
+        <Constraint android:id="@+id/blue_square">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Transform android:elevation="10dp" />
+        </Constraint>
+        <Constraint android:id="@+id/icon_map" app:layout_constraintHorizontal_bias="0.4">
+            <Transform android:elevation="12dp" />
+            <Layout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintEnd_toEndOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="@id/toolbar"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                app:layout_constraintTop_toTopOf="@id/toolbar" />
+
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="@android:color/holo_blue_light" />
+        </Constraint>
+
+        <Constraint android:id="@+id/icon_arrow_back">
+            <Transform android:elevation="12dp" />
+            <Layout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="@id/toolbar"
+                app:layout_constraintTop_toTopOf="@id/toolbar" />
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="@android:color/holo_blue_light" />
+        </Constraint>
+
+        <Constraint android:id="@+id/toolbar">
+            <Transform android:elevation="11dp" />
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="40dp" />
+        </Constraint>
+
+        <Constraint android:id="@+id/title">
+            <Transform android:elevation="12dp" />
+            <Layout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/icon_map"
+                app:layout_constraintStart_toEndOf="@id/icon_map"
+                app:layout_constraintTop_toTopOf="@id/icon_map" />
+            <CustomAttribute
+                app:attributeName="textColor"
+                app:customColorValue="@android:color/holo_blue_light" />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/blue_square_state"
+        app:constraintSetStart="@+id/start"
+        app:duration="500">
+    </Transition>
+
+</MotionScene>

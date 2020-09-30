@@ -2,6 +2,7 @@ package com.esspresso.nocnaukowcwpk.beacons
 
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.di.BeaconsInRange
+import com.esspresso.nocnaukowcwpk.store.KeyValueStore
 import com.jakewharton.rxrelay3.Relay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -10,29 +11,21 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BeaconManager @Inject constructor(@BeaconsInRange private val beaconsInRange: Relay<Collection<Beacon>>, private val remoteConfig: RemoteConfigManager) {
-
-    private lateinit varN
-
-    private fun getBeaconsFromConfig() {
-        remoteConfig.getBeacons().map {
-            BeaconModel.create(it)
-        }
-    }
-
+class BeaconManager @Inject constructor(
+    @BeaconsInRange private val beaconsInRange: Relay<Collection<Beacon>>,
+    private val remoteConfig: RemoteConfigManager,
+    private val store: KeyValueStore
+) {
     fun getNearbyBeacons(): Observable<ArrayList<BeaconModel>> = beaconsInRange
-        .map {
-            val items = it.map { beacon -> BeaconModel.create(beacon) }
-            items.filter {  }
-
-        }
-        .map {
-            ArrayList(it)
-        }
+        .map { it.map { beacon -> BeaconModel.create(beacon) } }
+        .map { it.map { beacon -> beacon.copy(categoryId = remoteConfig.getBeacons().find { it.id == beacon.id }?.categoryId) } }
+        .map { it.filter { model -> model.categoryId != null } }
+        .map { it.filter { model -> !checkItemAnswered(model.getId())  } }
+        .map { ArrayList(it) }
         .observeOn(AndroidSchedulers.mainThread())
 
-
-    init {
-        getBeaconsFromConfig()
+    private fun checkItemAnswered(id: String): Boolean {
+        val questionAnswered = store.userQuestionAnsweredCorrectly + store.userQuestionAnsweredIncorrectly
+        return questionAnswered.contains(id)
     }
 }

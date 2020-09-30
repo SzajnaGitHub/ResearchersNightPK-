@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="company_logo_header">Powered by</string>
+    <string name="action_submit_answer">Zatwierdź</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.esspresso.nocnaukowcwpk.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.location.LocationManager
 import android.net.ConnectivityManager
@@ -65,4 +66,8 @@ class ApplicationModule {
     @Singleton
     @QRCodeImageBitmap
     fun provideQrCodeImageRelay(): Relay<Bitmap> = PublishRelay.create()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences("APP_KV_STORE", Context.MODE_PRIVATE)
 }

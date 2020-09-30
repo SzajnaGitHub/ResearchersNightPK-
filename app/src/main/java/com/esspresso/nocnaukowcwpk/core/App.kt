@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.status.NetworkManager
 import com.esspresso.nocnaukowcwpk.utils.getDeviceSizeDp
 import dagger.hilt.android.HiltAndroidApp

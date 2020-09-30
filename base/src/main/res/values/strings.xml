@@ -2,4 +2,38 @@
     <string name="app_name" translatable="false">Noc naukowców PK</string>
     <string name="company_logo_header">Powered by</string>
 
+
+    <string name="action_submit_answer">Submit</string>
+
+    <!-- CATEGORIES -->
+    <string name="category_technology" translatable="false">Technology</string>
+    <string name="category_science" translatable="false">Science</string>
+    <string name="category_mechanics" translatable="false">Mechanics</string>
+    <string name="category_games" translatable="false">Games</string>
+    <string name="category_cars" translatable="false">Cars</string>
+    <string name="category_building" translatable="false">Building</string>
+    <string name="category_bikes" translatable="false">Bikes</string>
+
+    <!--QUESTIONS -->
+    <!--GAMES -->
+    <string name="question_buildings_1" translatable="false">Ile wejść znajduje się w budynku A?</string>
+    <string name="answer_buildings_1_a" translatable="false">2</string>
+    <string name="answer_buildings_1_b" translatable="false">4</string>
+    <string name="answer_buildings_1_c" translatable="false">3</string>
+    <string name="answer_buildings_1_d" translatable="false">6</string>
+
+    <!--MECHANICS -->
+    <string name="question_mechanics_1" translatable="false">Jaką nazwę nosi symulator tramwaju znajdujący się w budynku J?</string>
+    <string name="answer_mechanics_1_a" translatable="false">NGT6</string>
+    <string name="answer_mechanics_1_b" translatable="false">GN56</string>
+    <string name="answer_mechanics_1_c" translatable="false">GT09</string>
+    <string name="answer_mechanics_1_d" translatable="false">TRBJ</string>
+
+    <!--TECHNOLOGY -->
+    <string name="question_technology_1" translatable="false">Sala, w której znajduje się symulator F-16 to.</string>
+    <string name="answer_technology_1_a" translatable="false">G129</string>
+    <string name="answer_technology_1_b" translatable="false">G125</string>
+    <string name="answer_technology_1_c" translatable="false">B220</string>
+    <string name="answer_technology_1_d" translatable="false">C109</string>
+
 </resources>

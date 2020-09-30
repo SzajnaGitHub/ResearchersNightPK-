@@ -1,5 +1,6 @@
 package com.esspresso.nocnaukowcwpk.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,16 +11,19 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
+import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
 import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentListBinding
+import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.status.BluetoothBroadcastReceiver
 import com.esspresso.nocnaukowcwpk.status.LocationBroadCastReceiver
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import com.esspresso.nocnaukowcwpk.status.StatusManager
 import com.esspresso.nocnaukowcwpk.utils.DialogActivity
+import com.esspresso.nocnaukowcwpk.utils.recyclerview.RecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -46,6 +50,7 @@ class ListFragment : Fragment() {
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentListBinding
     private val slideBarLayout by lazy(LazyThreadSafetyMode.NONE) { binding.slideBar.root as MotionLayout }
+    var currentItem: BeaconModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
@@ -107,7 +112,14 @@ class ListFragment : Fragment() {
         startActivityForResult(permissionManager.getApplicationSettingsIntent(this.requireContext()), SETTINGS_REQUEST_CODE)
     }
 
-    private fun clickHandler(model: BeaconModel) {}
+    private fun clickHandler(model: BeaconModel) {
+        currentItem = model
+        context?.let { startActivityForResult(BeaconCardActivity.createIntent(it, model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE) }
+    }
+
+    private fun deleteCurrentItem() {
+        currentItem?.let { (binding.recycler.adapter as? RecyclerAdapter<BeaconModel>)?.removeItem(it) }
+    }
 
     private fun getNearbyBeacons() {
         beaconManager.getNearbyBeacons().observeOn(AndroidSchedulers.mainThread())
@@ -121,7 +133,6 @@ class ListFragment : Fragment() {
 
     private fun subscribeToStatus() {
         statusManager.getCurrentStatus().subscribe({
-            println("TEKST PIES $it")
             if (it.isAllEnabled) {
                 if (slideBarLayout.currentState == R.id.endState) {
                     binding.statusModel = it
@@ -137,11 +148,12 @@ class ListFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkIfAllPermissionsGranted()) {
-            Handler().postDelayed({ shouldShowPermissions() }, 200)
-        } else {
-            startBeaconScan()
+        when {
+            requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkIfAllPermissionsGranted() -> Handler().postDelayed({ shouldShowPermissions() }, 200)
+            requestCode == SETTINGS_REQUEST_CODE -> startBeaconScan()
+            requestCode == BEACON_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK -> deleteCurrentItem()
         }
+
     }
 
     private fun startRippleLoadingAnimation() {
@@ -188,6 +200,7 @@ class ListFragment : Fragment() {
     }
 
     companion object {
+        private const val BEACON_CARD_ACTIVITY_REQUEST_CODE = 50
         private const val SETTINGS_REQUEST_CODE = 30
         fun newInstance() = ListFragment()
     }

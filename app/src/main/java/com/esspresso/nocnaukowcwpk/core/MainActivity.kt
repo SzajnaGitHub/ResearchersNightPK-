@@ -13,11 +13,10 @@ import com.esspresso.nocnaukowcwpk.database.DatabaseManager
 import com.esspresso.nocnaukowcwpk.database.user.DBUserModel
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
 import com.esspresso.nocnaukowcwpk.main.ListFragment
-import com.esspresso.nocnaukowcwpk.main.ProfileFragment
+import com.esspresso.nocnaukowcwpk.main.profile.ProfileFragment
 import com.esspresso.nocnaukowcwpk.main.barcode.BarCodeReaderFragment
 import com.esspresso.nocnaukowcwpk.main.map.MapFragment
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
-import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -26,17 +25,19 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     internal lateinit var remoteConfig: RemoteConfigManager
-     @Inject
+    @Inject
     internal lateinit var permissionManager: PermissionManager
     @Inject
     internal lateinit var databaseManager: DatabaseManager
 
     private val disposables = CompositeDisposable()
     private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
+    private var latestTag = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionManager.init(this)
+
         setupBottomNavigation()
         selectDefaultItem()
         val user = DBUserModel().apply {
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.about_view -> BarCodeReaderFragment.newInstance()
                 else -> null
             }
-            fragment?.let { handleSelectedMenuItem(fragment, fragment::javaClass.name) }
+            fragment?.let { handleSelectedMenuItem(fragment, fragment::class.java.name) }
             true
         }
     }
@@ -66,9 +67,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSelectedMenuItem(fragment: Fragment, tag: String) {
-        try {
-            supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
-        } catch (e: Exception) {
+        if (latestTag != tag) {
+            try {
+                supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, fragment, tag).commit()
+                latestTag = tag
+            } catch (e: Exception) {}
         }
     }
 
