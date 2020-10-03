@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">Noc naukowców PK</string>
     <string name="company_logo_header">Powered by</string>
 
-
     <string name="action_submit_answer">Submit</string>
 
     <!-- CATEGORIES -->
@@ -35,5 +34,9 @@
     <string name="answer_technology_1_b" translatable="false">G125</string>
     <string name="answer_technology_1_c" translatable="false">B220</string>
     <string name="answer_technology_1_d" translatable="false">C109</string>
+    <string name="action_collect_points">collect points</string>
+    <string name="permission_required_camera">Camera permission required</string>
+    <string name="text_status">Status</string>
+    <string name="text_distance">Distance</string>
 
 </resources>

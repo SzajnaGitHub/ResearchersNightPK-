@@ -28,17 +28,12 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        //setupModel()
-        binding.mapSquare.model = MenuItemModel(R.drawable.background_blue, R.drawable.ic_map, "Map")
-        binding.scannerSquare.model = MenuItemModel(R.drawable.background_brown, R.drawable.ic_bt_scanner, "Scanner")
-        binding.qrSquare.model = MenuItemModel(R.drawable.background_purple, R.drawable.ic_qr_code, "QR")
-        binding.eventSquare.model = MenuItemModel(R.drawable.background_green, R.drawable.ic_schedule, "Schedule")
-        binding.profileSquare.model = MenuItemModel(R.drawable.background_orange, R.drawable.ic_profile, "Profile")
-        binding.infoSquare.model = MenuItemModel(R.drawable.background_yellow, R.drawable.ic_help, "Info")
+        setupModel()
+
         return binding.root
     }
 
-/*
+
     private fun setupModel() {
         val correctAnswers = store.userQuestionAnsweredCorrectly.size
         binding.model = ProfileFragmentViewModel(
@@ -49,7 +44,7 @@ class ProfileFragment : Fragment() {
         )
         println("TEKST ${binding.model}")
     }
-*/
+
 
     override fun onDestroy() {
         disposable.dispose()

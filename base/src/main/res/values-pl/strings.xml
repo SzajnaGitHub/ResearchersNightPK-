@@ -2,5 +2,8 @@
 <resources>
     <string name="company_logo_header">Powered by</string>
     <string name="action_submit_answer">Zatwierdź</string>
+    <string name="action_collect_points">collect points</string>
+    <string name="permission_required_camera">Camera permission required</string>
+    <string name="text_distance">Distance</string>
 
 </resources>

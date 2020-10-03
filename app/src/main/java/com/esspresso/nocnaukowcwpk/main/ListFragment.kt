@@ -1,12 +1,14 @@
 package com.esspresso.nocnaukowcwpk.main
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,7 +19,6 @@ import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentListBinding
-import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.status.BluetoothBroadcastReceiver
 import com.esspresso.nocnaukowcwpk.status.LocationBroadCastReceiver
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
@@ -28,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class ListFragment : Fragment() {
@@ -50,11 +50,11 @@ class ListFragment : Fragment() {
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentListBinding
     private val slideBarLayout by lazy(LazyThreadSafetyMode.NONE) { binding.slideBar.root as MotionLayout }
-    var currentItem: BeaconModel? = null
+    private val scannerAdapter by lazy(LazyThreadSafetyMode.NONE) { (binding.recycler.adapter as? RecyclerAdapter<BeaconModel>) }
+    private var currentItem: BeaconModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
-        getNearbyBeacons()
         binding.beaconClickHandler = ::clickHandler
         binding.onListEmptyAction = { binding.scanImage.visibility = View.VISIBLE }
         binding.onListNoLongerEmptyAction = { binding.scanImage.visibility = View.INVISIBLE }
@@ -66,6 +66,32 @@ class ListFragment : Fragment() {
         setupButtons()
         subscribeToStatus()
         statusManager.register()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getNearbyBeacons()
+    }
+
+    override fun onPause() {
+        disposable.clear()
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        beaconService.bindService()
+        bluetoothReceiver.register(requireActivity())
+        locationReceiver.register(requireActivity())
+        if (binding.list == null) binding.list = beaconManager.cachedBeacons
+    }
+
+    override fun onStop() {
+        scannerAdapter?.items?.let { beaconManager.cachedBeacons = it }
+        beaconService.unbindService()
+        bluetoothReceiver.unregister(requireActivity())
+        locationReceiver.unregister(requireActivity())
+        super.onStop()
     }
 
     private fun setupButtons() {
@@ -114,11 +140,14 @@ class ListFragment : Fragment() {
 
     private fun clickHandler(model: BeaconModel) {
         currentItem = model
-        context?.let { startActivityForResult(BeaconCardActivity.createIntent(it, model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE) }
+        val clickedItemPosition = scannerAdapter?.getCurrentItemPosition() ?: 0
+        val sharedImage = binding.recycler.layoutManager?.findViewByPosition(clickedItemPosition)?.findViewById<ImageView>(R.id.icon_image)
+        val activityOptions = ActivityOptions.makeSceneTransitionAnimation(requireActivity(), sharedImage, sharedImage?.transitionName)
+        startActivityForResult(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE, activityOptions.toBundle())
     }
 
     private fun deleteCurrentItem() {
-        currentItem?.let { (binding.recycler.adapter as? RecyclerAdapter<BeaconModel>)?.removeItem(it) }
+        currentItem?.let { scannerAdapter?.removeItem(it) }
     }
 
     private fun getNearbyBeacons() {
@@ -153,7 +182,6 @@ class ListFragment : Fragment() {
             requestCode == SETTINGS_REQUEST_CODE -> startBeaconScan()
             requestCode == BEACON_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK -> deleteCurrentItem()
         }
-
     }
 
     private fun startRippleLoadingAnimation() {
@@ -178,20 +206,6 @@ class ListFragment : Fragment() {
     private fun shouldShowPermissions() {
         shouldShowPermission(PermissionManager.LOCATION_PERMISSION)
         shouldShowPermission(PermissionManager.BLUETOOTH_PERMISSION)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        beaconService.bindService()
-        bluetoothReceiver.register(requireActivity())
-        locationReceiver.register(requireActivity())
-    }
-
-    override fun onStop() {
-        beaconService.unbindService()
-        bluetoothReceiver.unregister(requireActivity())
-        locationReceiver.unregister(requireActivity())
-        super.onStop()
     }
 
     override fun onDestroy() {

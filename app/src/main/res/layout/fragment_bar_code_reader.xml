@@ -42,7 +42,7 @@
             style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Camera permission required"
+            android:text="@string/permission_required_camera"
             android:clickable="true"
             android:focusable="true"
             android:visibility="@{missingPermission ? View.VISIBLE : View.GONE}"

@@ -1,13 +1,18 @@
 package com.esspresso.nocnaukowcwpk.main.map
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.esspresso.nocnaukowcwpk.R
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ui.IconGenerator
 import javax.inject.Inject
+
 
 class MarkerHelper @Inject constructor(val context: Context) {
     private val markerIconGenerator by lazy(LazyThreadSafetyMode.NONE) { IconGenerator(context) }
@@ -23,7 +28,19 @@ class MarkerHelper @Inject constructor(val context: Context) {
         val buildingJ = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("J"))).position(LatLng(50.075632, 19.995276))
         val buildingK = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("K"))).position(LatLng(50.075688, 19.995789))
         val buildingH = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("H"))).position(LatLng(50.076185, 19.995574))
-        return listOf(buildingA, buildingB, buildingC, buildingD, buildingE, buildingF, buildingG, buildingH, buildingJ, buildingK)
+
+        val pantographMarker = MarkerOptions().icon(ContextCompat.getDrawable(context,R.drawable.parking_marker_drawable)?.let { getMarkerIconFromDrawable(it) }).position(LatLng(50.074072, 19.996940))
+
+        return listOf(buildingA, buildingB, buildingC, buildingD, buildingE, buildingF, buildingG, buildingH, buildingJ, buildingK, pantographMarker)
+    }
+
+    private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor? {
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     init {

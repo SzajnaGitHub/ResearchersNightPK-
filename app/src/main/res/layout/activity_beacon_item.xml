@@ -1,51 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="com.esspresso.nocnaukowcwpk.beacons.BeaconCardViewModel" />
     </data>
 
-    <androidx.constraintlayout.motion.widget.MotionLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".beacons.BeaconCardActivity"
-        app:layoutDescription="@xml/activity_beacon_item_scene">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/icon_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="8dp"
-            android:background="@{model.getIcon(context)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/category_text"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/beacon_card_root"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.getCategoryText(context)}"
-            android:paddingBottom="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/icon_image"
-            app:layout_constraintStart_toStartOf="@+id/icon_image"
-            app:layout_constraintTop_toBottomOf="@+id/icon_image" />
+            android:layout_centerInParent="true"
+            android:animateLayoutChanges="true"
+            android:background="@android:color/transparent">
 
-        <include
-            android:id="@+id/question_view"
-            layout="@layout/view_question"
-            bind:model="@{model.questionModel}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_text" />
+            <View
+                android:id="@+id/background"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:minWidth="300dp"
+                android:visibility="invisible"
+                android:background="@drawable/background_beacon_card"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible"/>
 
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+            <ImageView
+                android:id="@+id/icon_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:src="@{model.getIcon(context)}"
+                android:transitionName="icon_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/background"
+                tools:background="@drawable/ic_games"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/category_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="@{model.getCategoryText(context)}"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/icon_image"
+                app:layout_constraintStart_toStartOf="@+id/icon_image"
+                app:layout_constraintTop_toBottomOf="@+id/icon_image" />
+
+            <include
+                android:id="@+id/question_view"
+                layout="@layout/view_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_text"
+                app:layout_constraintVertical_bias="1.0"
+                tools:visibility="gone"
+                bind:model="@{model.questionModel}" />
+
+            <Button
+                android:id="@+id/collect_free_points_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/button_rounded"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:visibility="invisible"
+                android:text="@string/action_collect_points"
+                app:layout_constraintBottom_toBottomOf="@+id/background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
 </layout>

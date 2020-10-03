@@ -10,7 +10,7 @@ import com.esspresso.nocnaukowcwpk.expiration.ExpirationHandler
 import com.esspresso.nocnaukowcwpk.utils.itemIndex
 
 class RecyclerAdapter<T : RecyclerModel>(
-    private var items: ArrayList<T>,
+    var items: ArrayList<T>,
     private val itemLayout: Int,
     private val variableId: Int,
     private val clickHandler: ((T) -> Unit)? = null,
@@ -21,8 +21,8 @@ class RecyclerAdapter<T : RecyclerModel>(
     private var expirationHandler = ExpirationHandler()
 
     override fun getItemCount() = items.size
-
     private fun isListEmpty() = itemCount == 0
+    var currentItem: T? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context), itemLayout, parent, false)
@@ -34,9 +34,12 @@ class RecyclerAdapter<T : RecyclerModel>(
         val root = holder.binding.root
         holder.binding.setVariable(variableId, item)
         root.setOnClickListener {
+            currentItem = item
             clickHandler?.invoke(item)
         }
     }
+
+    fun getCurrentItemPosition() = currentItem?.getId()?.let { items.itemIndex(it) }
 
     fun updateData(newItems: ArrayList<T>) {
         items = newItems

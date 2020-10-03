@@ -46,6 +46,7 @@ class MapFragment : Fragment() {
     private fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         setupMap()
+        setInfoWindowAdapter()
         setupLatLngCameraMoveBoundaries()
         addBuildingMarkers()
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(50.075219, 19.997690), 16.5f))
@@ -59,10 +60,21 @@ class MapFragment : Fragment() {
         val layer = KmlLayer(map, R.raw.wmpk, requireContext())
         layer.addLayerToMap()
         map.isBuildingsEnabled = false
+        map.uiSettings.setAllGesturesEnabled(true)
         map.setMaxZoomPreference(17.5f)
         map.setMinZoomPreference(15f)
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-        map.setOnMarkerClickListener(::onMarkerClick)
+    }
+
+    private fun setInfoWindowAdapter() {
+       /* map.setInfoWindowAdapter(object: GoogleMap.InfoWindowAdapter {
+            override fun getInfoContents(p0: Marker): View?  = null
+            override fun getInfoWindow(marker: Marker): View {
+                val binding = ViewMapInfoWindowBinding.inflate(layoutInflater, null, false)
+                marker.showInfoWindow()
+                return binding.root
+            }
+        })*/
     }
 
     private fun setupLatLngCameraMoveBoundaries() {
@@ -80,15 +92,6 @@ class MapFragment : Fragment() {
         )
     }
 
-    private fun onMarkerClick(marker: Marker?): Boolean {
-        marker?.let {
-            println("TEKST PIESEEK")
-            it.showInfoWindow()
-            zoomToMarker(it)
-        }
-        return true
-    }
-
     private fun zoomToMarker(marker: Marker) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 17.5f))
     }
@@ -101,5 +104,4 @@ class MapFragment : Fragment() {
     companion object {
         fun newInstance() = MapFragment()
     }
-
 }

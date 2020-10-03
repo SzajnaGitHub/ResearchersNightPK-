@@ -16,6 +16,8 @@ class BeaconManager @Inject constructor(
     private val remoteConfig: RemoteConfigManager,
     private val store: KeyValueStore
 ) {
+    var cachedBeacons = ArrayList<BeaconModel>()
+
     fun getNearbyBeacons(): Observable<ArrayList<BeaconModel>> = beaconsInRange
         .map { it.map { beacon -> BeaconModel.create(beacon) } }
         .map { it.map { beacon -> beacon.copy(categoryId = remoteConfig.getBeacons().find { it.id == beacon.id }?.categoryId) } }
