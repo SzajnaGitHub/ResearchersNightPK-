@@ -17,6 +17,7 @@ class BeaconService @Inject constructor(
 ) : BeaconConsumer {
 
     private val beaconManager by lazy(LazyThreadSafetyMode.NONE) { BeaconManager.getInstanceForApplication(context) }
+    private val region by lazy { createRegion() }
 
     override fun getApplicationContext() = context
     override fun unbindService(p0: ServiceConnection?) {}
@@ -33,9 +34,18 @@ class BeaconService @Inject constructor(
 
     fun startScanning() {
         try {
-            beaconManager.startMonitoringBeaconsInRegion(createRegion())
-            beaconManager.startRangingBeaconsInRegion(createRegion())
-        } catch (e: RemoteException) {}
+            beaconManager.startMonitoringBeaconsInRegion(region)
+            beaconManager.startRangingBeaconsInRegion(region)
+        }
+        catch (e: RemoteException) {}
+    }
+
+    fun stopScanning() {
+        try {
+            beaconManager.stopMonitoringBeaconsInRegion(region)
+            beaconManager.stopRangingBeaconsInRegion(region)
+        }
+        catch (e: RemoteException) {}
     }
 
     fun bindService() {

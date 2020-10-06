@@ -52,30 +52,20 @@ class ListFragment : Fragment() {
     private val slideBarLayout by lazy(LazyThreadSafetyMode.NONE) { binding.slideBar.root as MotionLayout }
     private val scannerAdapter by lazy(LazyThreadSafetyMode.NONE) { (binding.recycler.adapter as? RecyclerAdapter<BeaconModel>) }
     private var currentItem: BeaconModel? = null
+    private var canUpdateList = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false)
         binding.beaconClickHandler = ::clickHandler
-        binding.onListEmptyAction = { binding.scanImage.visibility = View.VISIBLE }
-        binding.onListNoLongerEmptyAction = { binding.scanImage.visibility = View.INVISIBLE }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getNearbyBeacons()
         setupButtons()
         subscribeToStatus()
         statusManager.register()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getNearbyBeacons()
-    }
-
-    override fun onPause() {
-        disposable.clear()
-        super.onPause()
     }
 
     override fun onStart() {
@@ -83,7 +73,9 @@ class ListFragment : Fragment() {
         beaconService.bindService()
         bluetoothReceiver.register(requireActivity())
         locationReceiver.register(requireActivity())
-        if (binding.list == null) binding.list = beaconManager.cachedBeacons
+        if (binding.list == null) {
+            binding.list = beaconManager.cachedBeacons
+        }
     }
 
     override fun onStop() {
@@ -95,31 +87,42 @@ class ListFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        binding.slideBar.rotate = true
-        slideBarLayout.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
-            override fun onTransitionChange(p0: MotionLayout?, startState: Int, endState: Int, p3: Float) {}
-
-            override fun onTransitionCompleted(p0: MotionLayout?, state: Int) {
-                binding.slideBar.rotate = true
-                if (state == R.id.startState && statusManager.isAllEnabled()) {
-                    binding.statusModel = null
-                }
-            }
-
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-                binding.slideBar.rotate = false
-            }
-        })
-
-        binding.scanImage.setOnClickListener {
+        binding.slideBar.scanImage.setOnClickListener {
             if (permissionManager.checkIfAllPermissionsGranted()) {
-                startBeaconScan()
+                manageStates()
             } else {
-                stopRippleLoadingAnimation()
                 shouldShowPermissions()
             }
         }
+    }
+
+    private fun manageStates() {
+        val currentState = slideBarLayout.currentState
+
+        when (binding.statusModel?.isAllEnabled ?: true) {
+            true -> {
+                if (currentState == R.id.startState) {
+                    slideBarLayout.transitionToEndState(R.id.scan_state)
+                    startBeaconScan()
+                } else {
+                    slideBarLayout.transitionToEndState(R.id.startState)
+                    stopBeaconScan()
+                }
+            }
+            false -> {
+                stopBeaconScan()
+                if (currentState == R.id.startState) {
+                    slideBarLayout.transitionToEndState(R.id.error_state)
+                } else {
+                    slideBarLayout.transitionToEndState(R.id.startState)
+                }
+            }
+        }
+    }
+
+    private fun MotionLayout.transitionToEndState(id: Int) {
+        this.transitionToState(id)
+        this.transitionToEnd()
     }
 
     private fun shouldShowPermission(permission: String) {
@@ -140,7 +143,7 @@ class ListFragment : Fragment() {
 
     private fun clickHandler(model: BeaconModel) {
         currentItem = model
-        val clickedItemPosition = scannerAdapter?.getCurrentItemPosition() ?: 0
+        val clickedItemPosition = scannerAdapter?.currentItemPosition ?: 0
         val sharedImage = binding.recycler.layoutManager?.findViewByPosition(clickedItemPosition)?.findViewById<ImageView>(R.id.icon_image)
         val activityOptions = ActivityOptions.makeSceneTransitionAnimation(requireActivity(), sharedImage, sharedImage?.transitionName)
         startActivityForResult(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE, activityOptions.toBundle())
@@ -153,25 +156,18 @@ class ListFragment : Fragment() {
     private fun getNearbyBeacons() {
         beaconManager.getNearbyBeacons().observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                if (it.isNotEmpty()) {
+                if (canUpdateList && it.isNotEmpty()) {
                     binding.list = it
-                    stopRippleLoadingAnimation()
                 }
             }.let(disposable::add)
     }
 
     private fun subscribeToStatus() {
         statusManager.getCurrentStatus().subscribe({
-            if (it.isAllEnabled) {
-                if (slideBarLayout.currentState == R.id.endState) {
-                    binding.statusModel = it
-                    slideBarLayout.transitionToState(R.id.startState)
-                } else {
-                    binding.statusModel = null
-                }
-            } else {
-                binding.statusModel = it
-            }
+            println("TEKST STATUS $it")
+            binding.statusModel = it
+            if (it.isAllEnabled && slideBarLayout.currentState == R.id.error_state) slideBarLayout.transitionToEndState(R.id.startState)
+            else if (!it.isAllEnabled) slideBarLayout.transitionToEndState(R.id.error_state)
         }, {}).let(disposable::add)
     }
 
@@ -184,23 +180,28 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun startBeaconScan() {
+        beaconService.startScanning()
+        startRippleLoadingAnimation()
+    }
+
+    private fun stopBeaconScan() {
+        beaconService.stopScanning()
+        stopRippleLoadingAnimation()
+    }
+
     private fun startRippleLoadingAnimation() {
-        if (!binding.rippleBackground.isRippleAnimationRunning) {
+        if (!binding.slideBar.rippleBackground.isRippleAnimationRunning) {
             binding.loading = true
-            binding.rippleBackground.startRippleAnimation()
+            binding.slideBar.rippleBackground.startRippleAnimation()
         }
     }
 
     private fun stopRippleLoadingAnimation() {
-        if (binding.rippleBackground.isRippleAnimationRunning) {
-            binding.rippleBackground.stopRippleAnimation()
+        if (binding.slideBar.rippleBackground.isRippleAnimationRunning) {
+            binding.slideBar.rippleBackground.stopRippleAnimation()
             binding.loading = false
         }
-    }
-
-    private fun startBeaconScan() {
-        beaconService.startScanning()
-        startRippleLoadingAnimation()
     }
 
     private fun shouldShowPermissions() {
@@ -208,8 +209,18 @@ class ListFragment : Fragment() {
         shouldShowPermission(PermissionManager.BLUETOOTH_PERMISSION)
     }
 
+    override fun onResume() {
+        super.onResume()
+        canUpdateList = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        canUpdateList = false
+    }
+
     override fun onDestroy() {
-        disposable.dispose()
+        disposable.clear()
         super.onDestroy()
     }
 

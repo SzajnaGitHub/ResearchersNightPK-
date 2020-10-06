@@ -22,7 +22,7 @@ class RecyclerAdapter<T : RecyclerModel>(
 
     override fun getItemCount() = items.size
     private fun isListEmpty() = itemCount == 0
-    var currentItem: T? = null
+    var currentItemPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context), itemLayout, parent, false)
@@ -32,14 +32,13 @@ class RecyclerAdapter<T : RecyclerModel>(
     override fun onBindViewHolder(holder: DataBindingViewHolder<ViewDataBinding>, position: Int) {
         val item = items[position]
         val root = holder.binding.root
+        println("TEKST LOL $position $item")
         holder.binding.setVariable(variableId, item)
         root.setOnClickListener {
-            currentItem = item
+            currentItemPosition = position
             clickHandler?.invoke(item)
         }
     }
-
-    fun getCurrentItemPosition() = currentItem?.getId()?.let { items.itemIndex(it) }
 
     fun updateData(newItems: ArrayList<T>) {
         items = newItems
@@ -77,6 +76,7 @@ class RecyclerAdapter<T : RecyclerModel>(
     }
 
     fun addOrUpdateItem(item: T) {
+        println("TEKST ADD ITEM $item")
         Handler().postDelayed({ deleteExpiredItems() }, 10000)
         val itemIndex = items.itemIndex(item.getId())
         if (itemIndex != -1) {

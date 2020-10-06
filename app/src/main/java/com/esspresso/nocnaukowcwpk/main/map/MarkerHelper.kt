@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ui.IconGenerator
 import javax.inject.Inject
 
-
 class MarkerHelper @Inject constructor(val context: Context) {
     private val markerIconGenerator by lazy(LazyThreadSafetyMode.NONE) { IconGenerator(context) }
 
@@ -28,10 +27,14 @@ class MarkerHelper @Inject constructor(val context: Context) {
         val buildingJ = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("J"))).position(LatLng(50.075632, 19.995276))
         val buildingK = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("K"))).position(LatLng(50.075688, 19.995789))
         val buildingH = MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(markerIconGenerator.makeIcon("H"))).position(LatLng(50.076185, 19.995574))
+        return listOf(buildingA, buildingB, buildingC, buildingD, buildingE, buildingF, buildingG, buildingH, buildingJ, buildingK)
+    }
 
-        val pantographMarker = MarkerOptions().icon(ContextCompat.getDrawable(context,R.drawable.parking_marker_drawable)?.let { getMarkerIconFromDrawable(it) }).position(LatLng(50.074072, 19.996940))
-
-        return listOf(buildingA, buildingB, buildingC, buildingD, buildingE, buildingF, buildingG, buildingH, buildingJ, buildingK, pantographMarker)
+    fun getSpecialMarkers(): List<MarkerOptions> {
+        val pantographMarker = MarkerOptions().icon(ContextCompat.getDrawable(context, R.drawable.marker_diner_drawable)?.let { getMarkerIconFromDrawable(it) }).position(LatLng(50.074895, 19.995378))
+        val parkingMarker = MarkerOptions().icon(ContextCompat.getDrawable(context, R.drawable.marker_parking_drawable)?.let { getMarkerIconFromDrawable(it) }).position(LatLng(50.074072, 19.996940))
+        val tramMarker = MarkerOptions().icon(ContextCompat.getDrawable(context, R.drawable.marker_tram_drawable)?.let { getMarkerIconFromDrawable(it) }).position(LatLng(50.073989, 19.998912))
+        return listOf(pantographMarker, tramMarker, parkingMarker)
     }
 
     private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor? {

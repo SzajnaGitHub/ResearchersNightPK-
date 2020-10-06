@@ -12,9 +12,8 @@ object CategoryResolver {
         CATEGORY_SCIENCE -> ContextCompat.getDrawable(context, R.drawable.ic_science)
         CATEGORY_MECHANICS -> ContextCompat.getDrawable(context, R.drawable.ic_mechanics)
         CATEGORY_GAMES -> ContextCompat.getDrawable(context, R.drawable.ic_games)
-        CATEGORY_CARS -> ContextCompat.getDrawable(context, R.drawable.ic_car)
-        CATEGORY_BUILDING -> ContextCompat.getDrawable(context, R.drawable.ic_building)
-        CATEGORY_BIKES -> ContextCompat.getDrawable(context, R.drawable.ic_bike)
+        CATEGORY_VEHICLES -> ContextCompat.getDrawable(context, R.drawable.ic_car)
+        CATEGORY_BUILDINGS -> ContextCompat.getDrawable(context, R.drawable.ic_building)
         else -> ContextCompat.getDrawable(context, R.drawable.ic_mechanics_2)
     }
 
@@ -22,7 +21,6 @@ object CategoryResolver {
     const val CATEGORY_SCIENCE = "category_science"
     const val CATEGORY_MECHANICS = "category_mechanics"
     const val CATEGORY_GAMES = "category_games"
-    const val CATEGORY_CARS = "category_cars"
-    const val CATEGORY_BUILDING = "category_building"
-    const val CATEGORY_BIKES = "category_bikes"
+    const val CATEGORY_VEHICLES = "category_vehicles"
+    const val CATEGORY_BUILDINGS = "category_buildings"
 }

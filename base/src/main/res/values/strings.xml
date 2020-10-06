@@ -2,16 +2,14 @@
     <string name="app_name" translatable="false">Noc naukowców PK</string>
     <string name="company_logo_header">Powered by</string>
 
-    <string name="action_submit_answer">Submit</string>
 
     <!-- CATEGORIES -->
     <string name="category_technology" translatable="false">Technology</string>
     <string name="category_science" translatable="false">Science</string>
     <string name="category_mechanics" translatable="false">Mechanics</string>
     <string name="category_games" translatable="false">Games</string>
-    <string name="category_cars" translatable="false">Cars</string>
-    <string name="category_building" translatable="false">Building</string>
-    <string name="category_bikes" translatable="false">Bikes</string>
+    <string name="category_vehicles" translatable="false">Vehicles</string>
+    <string name="category_buildings" translatable="false">Building</string>
 
     <!--QUESTIONS -->
     <!--GAMES -->
@@ -34,9 +32,15 @@
     <string name="answer_technology_1_b" translatable="false">G125</string>
     <string name="answer_technology_1_c" translatable="false">B220</string>
     <string name="answer_technology_1_d" translatable="false">C109</string>
+
+    <!--Buttons -->
+    <string name="action_submit_answer">Submit</string>
     <string name="action_collect_points">collect points</string>
+
     <string name="permission_required_camera">Camera permission required</string>
     <string name="text_status">Status</string>
     <string name="text_distance">Distance</string>
+    <string name="text_answered_questions">Answered questions:</string>
+    <string name="text_total_points">Total points:</string>
 
 </resources>

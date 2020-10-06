@@ -5,7 +5,6 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 
 object RecyclerViewBindingAdapter {
-
     @JvmStatic
     @BindingAdapter("items", "itemLayout", "variableName", "clickHandler", "onListEmptyAction", "onListNoLongerEmptyAction", requireAll = false)
     fun <T : RecyclerModel> bindRecyclerViewAdapter(recyclerView: RecyclerView, items: ArrayList<T>?, itemLayout: Int, variableName: String,

@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
-import com.esspresso.nocnaukowcwpk.core.MenuItemModel
 import com.esspresso.nocnaukowcwpk.databinding.FragmentProfileBinding
+import com.esspresso.nocnaukowcwpk.questions.ItemCategoryModel
 import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.store.KeyValueStore
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +19,6 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
     @Inject
     internal lateinit var store: KeyValueStore
-
     @Inject
     internal lateinit var questionManager: QuestionManager
 
@@ -29,10 +28,8 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         setupModel()
-
         return binding.root
     }
-
 
     private fun setupModel() {
         val correctAnswers = store.userQuestionAnsweredCorrectly.size
@@ -42,9 +39,18 @@ class ProfileFragment : Fragment() {
             correctAnswers = correctAnswers,
             allAnsweredQuestions = correctAnswers + store.userQuestionAnsweredIncorrectly.size
         )
-        println("TEKST ${binding.model}")
+        getUserAnsweredCategories()
     }
 
+    private fun getUserAnsweredCategories() {
+        questionManager.getUserAnsweredCategories(store.userQuestionAnsweredCorrectly)
+            .map { ArrayList(it) }
+            .subscribe({
+                binding.items = it
+                binding.questionCategoryList.adapter?.notifyDataSetChanged()
+            },{})
+            .let(disposable::add)
+    }
 
     override fun onDestroy() {
         disposable.dispose()

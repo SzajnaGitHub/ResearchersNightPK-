@@ -46,35 +46,22 @@ class MapFragment : Fragment() {
     private fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         setupMap()
-        setInfoWindowAdapter()
         setupLatLngCameraMoveBoundaries()
-        addBuildingMarkers()
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(50.075219, 19.997690), 16.5f))
+        addMarkers()
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(DEFAULT_LAT_VALUE, DEFAULT_LONG_VALUE), DEFAULT_ZOOM_VALE))
     }
 
-    private fun addBuildingMarkers() {
-        markerHelper.getBuildingMarkers().forEach(map::addMarker)
+    private fun addMarkers() {
+        (markerHelper.getSpecialMarkers() + markerHelper.getBuildingMarkers()).forEach(map::addMarker)
     }
 
     private fun setupMap() {
-        val layer = KmlLayer(map, R.raw.wmpk, requireContext())
-        layer.addLayerToMap()
+        addMapLayers()
         map.isBuildingsEnabled = false
         map.uiSettings.setAllGesturesEnabled(true)
-        map.setMaxZoomPreference(17.5f)
-        map.setMinZoomPreference(15f)
+        map.setMaxZoomPreference(MAX_ZOOM_VALE)
+        map.setMinZoomPreference(MIN_ZOOM_VALE)
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-    }
-
-    private fun setInfoWindowAdapter() {
-       /* map.setInfoWindowAdapter(object: GoogleMap.InfoWindowAdapter {
-            override fun getInfoContents(p0: Marker): View?  = null
-            override fun getInfoWindow(marker: Marker): View {
-                val binding = ViewMapInfoWindowBinding.inflate(layoutInflater, null, false)
-                marker.showInfoWindow()
-                return binding.root
-            }
-        })*/
     }
 
     private fun setupLatLngCameraMoveBoundaries() {
@@ -92,6 +79,11 @@ class MapFragment : Fragment() {
         )
     }
 
+    private fun addMapLayers() {
+        val layer = KmlLayer(map, R.raw.wmpk, requireContext())
+        layer.addLayerToMap()
+    }
+
     private fun zoomToMarker(marker: Marker) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 17.5f))
     }
@@ -102,6 +94,11 @@ class MapFragment : Fragment() {
     }
 
     companion object {
+        private const val DEFAULT_LAT_VALUE = 50.075219
+        private const val DEFAULT_LONG_VALUE = 19.997690
+        private const val DEFAULT_ZOOM_VALE = 16.5f
+        private const val MAX_ZOOM_VALE = 17.5f
+        private const val MIN_ZOOM_VALE = 15f
         fun newInstance() = MapFragment()
     }
 }

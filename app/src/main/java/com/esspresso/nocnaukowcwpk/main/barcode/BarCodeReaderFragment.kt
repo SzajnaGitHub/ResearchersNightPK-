@@ -38,8 +38,12 @@ class BarCodeReaderFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bar_code_reader, container, false)
         setupBinding()
-        Handler().postDelayed({ setupCamera() }, 1000)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Handler().postDelayed({ setupCamera() }, 1000)
     }
 
     private fun setupCamera() {
@@ -94,8 +98,12 @@ class BarCodeReaderFragment : Fragment() {
             }.let(disposables::add)
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         cameraManager.dispose()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
     }

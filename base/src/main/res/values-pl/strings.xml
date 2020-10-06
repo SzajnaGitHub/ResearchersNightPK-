@@ -5,5 +5,7 @@
     <string name="action_collect_points">collect points</string>
     <string name="permission_required_camera">Camera permission required</string>
     <string name="text_distance">Distance</string>
+    <string name="text_answered_questions">Answered questions:</string>
+    <string name="text_total_points">Total points:</string>
 
 </resources>

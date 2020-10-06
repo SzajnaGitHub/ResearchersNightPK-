@@ -44,13 +44,21 @@ class StatusManager @Inject constructor(
             println("TEKST SEARCHING $searching")
         }.let(disposables::add)
 
-        locationRelay.distinctUntilChanged()
-            .map { statusModel = statusModel.copy(locationAvailable = it) }
+        locationRelay
+            .map {
+                println("TEKST STATUS MODEL b4 l $statusModel")
+                statusModel = statusModel.copy(locationAvailable = it)
+                println("TEKST STATUS MODEL aft l $statusModel")
+            }
             .subscribe(subject::onNext)
             .let(disposables::add)
 
-        bluetoothRelay.distinctUntilChanged()
-            .map { statusModel = statusModel.copy(bluetoothAvailable = it) }
+        bluetoothRelay
+            .map {
+                println("TEKST STATUS MODEL bf bt $statusModel")
+                statusModel = statusModel.copy(bluetoothAvailable = it)
+                println("TEKST STATUS MODEL aft bt $statusModel")
+            }
             .subscribe(subject::onNext)
             .let(disposables::add)
 

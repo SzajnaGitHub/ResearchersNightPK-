@@ -60,42 +60,12 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/item_beacon" />
 
-        <com.skyfishjy.library.RippleBackground
-            android:id="@+id/ripple_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rb_color="#0099CC"
-            app:rb_duration="4000"
-            app:rb_radius="28dp"
-            app:rb_rippleAmount="4"
-            app:rb_scale="6"
-            app:rb_type="fillRipple" />
-
-        <ImageView
-            android:id="@+id/scanImage"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerInParent="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_baseline_phone_android_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/recycler"
-            tools:ignore="ContentDescription" />
-
         <include
             android:id="@+id/slide_bar"
             layout="@layout/motion_left_status_bar"
             bind:model="@{statusModel}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{statusModel == null ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

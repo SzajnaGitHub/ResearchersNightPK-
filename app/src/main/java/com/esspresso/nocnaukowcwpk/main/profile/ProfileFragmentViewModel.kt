@@ -4,5 +4,5 @@ data class ProfileFragmentViewModel(
     val userName: String,
     val userPoints: Int,
     val correctAnswers: Int,
-    val allAnsweredQuestions: Int
+    val allAnsweredQuestions: Int,
 )

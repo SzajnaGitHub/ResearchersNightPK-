@@ -7,6 +7,7 @@ import com.esspresso.nocnaukowcwpk.beacons.BeaconId
 data class QuestionConfigModel(
     val major: String,
     val minor: String,
+    val category: String,
     val questionId: String,
     val answerAId: String,
     val answerBId: String,
@@ -19,6 +20,7 @@ data class QuestionConfigModel(
 @Keep
 data class QuestionModel(
     val id: BeaconId,
+    val category: String,
     val question: String,
     val answerA: String,
     val answerB: String,
