@@ -7,9 +7,12 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
+import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
+import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentBarCodeReaderBinding
 import com.esspresso.nocnaukowcwpk.di.QRCodeImageBitmap
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
@@ -23,11 +26,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class BarCodeReaderFragment : Fragment() {
     @Inject
-    internal lateinit var barCodeManager: BarCodeManager
-    @Inject
     internal lateinit var cameraManager: CameraManager
     @Inject
     internal lateinit var permissionManager: PermissionManager
+    @Inject
+    internal lateinit var beaconManager: BeaconManager
     @Inject
     @QRCodeImageBitmap
     internal lateinit var qrImageRelay: Relay<Bitmap>
@@ -38,6 +41,7 @@ class BarCodeReaderFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bar_code_reader, container, false)
         setupBinding()
+        subscribeToBeaconModelSubject()
         return binding.root
     }
 
@@ -96,6 +100,25 @@ class BarCodeReaderFragment : Fragment() {
             .subscribe {
                 binding.imageView.setImageBitmap(it)
             }.let(disposables::add)
+    }
+
+    private fun subscribeToBeaconModelSubject() {
+        cameraManager.beaconModelSubject.observeOn(AndroidSchedulers.mainThread()).subscribe { model ->
+            if (beaconManager.checkItemAnswered(model.id.toString())) {
+                Toast.makeText(context, getString(R.string.text_points_already_collected), Toast.LENGTH_LONG).show()
+                Handler().postDelayed({
+                    cameraManager.closeCurrentImage()
+                    binding.imageView.setImageDrawable(null)
+                }, 2000)
+            } else {
+                startActivity(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId))
+            }
+        }.let(disposables::add)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cameraManager.closeCurrentImage()
     }
 
     override fun onStop() {

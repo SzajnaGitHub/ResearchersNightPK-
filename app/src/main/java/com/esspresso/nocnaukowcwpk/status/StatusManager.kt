@@ -46,18 +46,14 @@ class StatusManager @Inject constructor(
 
         locationRelay
             .map {
-                println("TEKST STATUS MODEL b4 l $statusModel")
                 statusModel = statusModel.copy(locationAvailable = it)
-                println("TEKST STATUS MODEL aft l $statusModel")
             }
             .subscribe(subject::onNext)
             .let(disposables::add)
 
         bluetoothRelay
             .map {
-                println("TEKST STATUS MODEL bf bt $statusModel")
                 statusModel = statusModel.copy(bluetoothAvailable = it)
-                println("TEKST STATUS MODEL aft bt $statusModel")
             }
             .subscribe(subject::onNext)
             .let(disposables::add)
@@ -66,9 +62,7 @@ class StatusManager @Inject constructor(
     }
 
     fun getCurrentStatus(): Observable<StatusModel> = subject.observeOn(AndroidSchedulers.mainThread())
-        .map {
-            statusModel
-        }
+        .map { statusModel }
 
     fun dispose() {
         disposables.clear()

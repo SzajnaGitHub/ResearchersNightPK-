@@ -15,6 +15,7 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowSharedElementEnterTransition">@transition/image_transition_animation</item>
         <item name="android:windowSharedElementExitTransition">@transition/image_transition_animation</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_from_bottom</item>
     </style>
 
     <style name="AppTheme.NoStatusBar">
@@ -45,6 +46,12 @@
 
     <style name="Text.Tiny.Black">
         <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Button.Blue" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="background">@drawable/button_rounded</item>
+        <item name="height">32dp</item>
     </style>
 
 </resources>

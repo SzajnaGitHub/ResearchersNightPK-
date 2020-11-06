@@ -56,12 +56,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMenu() {
-        binding.mapSquare.model = MenuItemModel(R.drawable.background_blue, R.drawable.ic_map, "Map")
-        binding.scannerSquare.model = MenuItemModel(R.drawable.background_brown, R.drawable.ic_bt_scanner, "Scanner")
-        binding.qrSquare.model = MenuItemModel(R.drawable.background_purple, R.drawable.ic_qr_code, "QR")
-        binding.eventSquare.model = MenuItemModel(R.drawable.background_green, R.drawable.ic_schedule, "Schedule")
-        binding.profileSquare.model = MenuItemModel(R.drawable.background_orange, R.drawable.ic_profile, "Profile")
-        binding.infoSquare.model = MenuItemModel(R.drawable.background_yellow, R.drawable.ic_help, "Info")
+        binding.mapSquare.model = MenuItemModel(R.drawable.background_blue, R.drawable.ic_map, getString(R.string.menu_item_map))
+        binding.scannerSquare.model = MenuItemModel(R.drawable.background_brown, R.drawable.ic_bt_scanner, getString(R.string.menu_item_scanner))
+        binding.qrSquare.model = MenuItemModel(R.drawable.background_purple, R.drawable.ic_qr_code, getString(R.string.menu_item_qr))
+        binding.eventSquare.model = MenuItemModel(R.drawable.background_green, R.drawable.ic_schedule, getString(R.string.menu_item_schedule))
+        binding.profileSquare.model = MenuItemModel(R.drawable.background_orange, R.drawable.ic_profile, getString(R.string.menu_item_profile))
+        binding.infoSquare.model = MenuItemModel(R.drawable.background_yellow, R.drawable.ic_help, getString(R.string.menu_item_info))
     }
 
     private fun setupMenuOnClick() {

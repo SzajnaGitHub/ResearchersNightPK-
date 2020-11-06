@@ -50,28 +50,29 @@ class BeaconCardActivity : AppCompatActivity() {
         Handler().postDelayed({
             binding.background.visibility = View.VISIBLE
             binding.categoryText.visibility = View.VISIBLE
-
-            if (model.questionModel == null) {
-                binding.collectFreePointsButton.visibility = View.VISIBLE
-            } else {
-                binding.questionView.root.visibility = View.VISIBLE
-            }
         }, 500)
 
     }
 
     private fun setupBinding() {
-        val questionModel = binding.model?.questionModel ?: return
-        binding.questionView.submitButton.setOnClickListener {
-            binding.questionView.answerGroup.children.forEach { it.isEnabled = false }
-            val userAnsweredCorrectly = when (binding.questionView.answerGroup.checkedRadioButtonId) {
-                R.id.radio_option_1 -> (questionModel.answerA == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_1.setBackgroundColor(getBackgroundColor(it)) }
-                R.id.radio_option_2 -> (questionModel.answerB == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_2.setBackgroundColor(getBackgroundColor(it)) }
-                R.id.radio_option_3 -> (questionModel.answerC == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_3.setBackgroundColor(getBackgroundColor(it)) }
-                R.id.radio_option_4 -> (questionModel.answerD == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_4.setBackgroundColor(getBackgroundColor(it)) }
-                else -> false
+        val questionModel = binding.model?.questionModel
+        binding.claimButton.setOnClickListener {
+            if (questionModel == null) {
+                finishAfterTransition()
+            } else {
+                binding.questionView.answerGroup.children.forEach { it.isEnabled = false }
+                val userAnsweredCorrectly = when (binding.questionView.answerGroup.checkedRadioButtonId) {
+                    R.id.radio_option_1 -> (questionModel.answerA == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_1.setBackgroundColor(getBackgroundColor(it)) }
+                    R.id.radio_option_2 -> (questionModel.answerB == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_2.setBackgroundColor(getBackgroundColor(it)) }
+                    R.id.radio_option_3 -> (questionModel.answerC == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_3.setBackgroundColor(getBackgroundColor(it)) }
+                    R.id.radio_option_4 -> (questionModel.answerD == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_4.setBackgroundColor(getBackgroundColor(it)) }
+                    else -> false
+                }
+                submitAnswer(userAnsweredCorrectly, questionModel.id.toString())
             }
-            submitAnswer(userAnsweredCorrectly, questionModel.id.toString())
+        }
+        binding.toolbar.setOnClickListener {
+            finishAfterTransition()
         }
     }
 

@@ -21,7 +21,6 @@
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
@@ -30,7 +29,7 @@
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:baselineAlignBottom="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +47,8 @@
             android:visibility="@{missingPermission ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@+id/missing_permission_image"
             app:layout_constraintEnd_toEndOf="@+id/missing_permission_image"
-            app:layout_constraintStart_toStartOf="@+id/missing_permission_image" />
+            app:layout_constraintStart_toStartOf="@+id/missing_permission_image"
+            tools:visibility="invisible" />
 
         <ImageView
             android:id="@+id/missing_permission_image"
@@ -61,7 +61,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/viewFinder"
             app:layout_constraintEnd_toEndOf="@+id/viewFinder"
             app:layout_constraintStart_toStartOf="@+id/viewFinder"
-            app:layout_constraintTop_toTopOf="@id/viewFinder" />
+            app:layout_constraintTop_toTopOf="@id/viewFinder"
+            tools:visibility="invisible" />
+
+        <com.esspresso.nocnaukowcwpk.main.barcode.QRTargetView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

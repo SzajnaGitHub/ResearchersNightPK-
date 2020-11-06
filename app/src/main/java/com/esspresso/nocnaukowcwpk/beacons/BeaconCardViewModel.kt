@@ -11,6 +11,7 @@ data class BeaconCardViewModel(
     val categoryId: String?,
     val questionModel: QuestionModel? = null,
 ) {
+    val hasQuestion get() = questionModel != null
     fun getIcon(context: Context) = categoryId?.let { CategoryResolver.resolveCategoryImage(it, context) }
     fun getCategoryText(context: Context) = categoryId?.translateFromId(context) ?: ""
 }

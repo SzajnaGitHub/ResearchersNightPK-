@@ -1,5 +1,6 @@
 package com.esspresso.nocnaukowcwpk.main
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -8,6 +9,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
@@ -142,12 +145,15 @@ class ListFragment : Fragment() {
     }
 
     private fun clickHandler(model: BeaconModel) {
+        slideBarLayout.visibility = View.INVISIBLE
         currentItem = model
         val clickedItemPosition = scannerAdapter?.currentItemPosition ?: 0
         val sharedImage = binding.recycler.layoutManager?.findViewByPosition(clickedItemPosition)?.findViewById<ImageView>(R.id.icon_image)
         val activityOptions = ActivityOptions.makeSceneTransitionAnimation(requireActivity(), sharedImage, sharedImage?.transitionName)
         startActivityForResult(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE, activityOptions.toBundle())
     }
+
+
 
     private fun deleteCurrentItem() {
         currentItem?.let { scannerAdapter?.removeItem(it) }
@@ -212,6 +218,9 @@ class ListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         canUpdateList = true
+        Handler().postDelayed({
+            slideBarLayout.visibility = View.VISIBLE
+        },200)
     }
 
     override fun onPause() {

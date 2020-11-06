@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:text="@{`App version: `+ versionName}"
+            android:text="@{String.format(@string/text_app_version, versionName)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/wm_logo" />
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Author: Marcin Szajna"
+            android:text="@string/app_author"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/version_text" />
 

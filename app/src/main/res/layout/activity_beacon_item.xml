@@ -4,97 +4,93 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/beacon_card_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/transparent">
 
+        <View
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/background"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/toolbar_height"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/icon_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:src="@{model.getIcon(context)}"
+            android:transitionName="icon_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/background"
+            tools:background="@drawable/ic_games"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="@{model.getCategoryText(context)}"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/icon_image"
+            app:layout_constraintStart_toStartOf="@+id/icon_image"
+            app:layout_constraintTop_toBottomOf="@+id/icon_image" />
+
+        <include
+            android:id="@+id/question_view"
+            layout="@layout/view_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:visibility="@{model.hasQuestion ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/claim_button"
+            app:layout_constraintEnd_toEndOf="@id/beacon_card_root"
+            app:layout_constraintStart_toStartOf="@id/beacon_card_root"
+            app:layout_constraintTop_toBottomOf="@+id/category_text"
+            app:layout_constraintVertical_bias="0.05"
+            bind:model="@{model.questionModel}" />
+
+        <Button
+            android:id="@+id/claim_button"
+            style="@style/Button.Blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_rounded"
+            android:text="@{model.hasQuestion ? @string/action_submit_answer : @string/action_collect_points}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible"
+            tools:text="claim"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
         <import type="android.view.View" />
 
         <variable
             name="model"
             type="com.esspresso.nocnaukowcwpk.beacons.BeaconCardViewModel" />
     </data>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/beacon_card_root"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:animateLayoutChanges="true"
-            android:background="@android:color/transparent">
-
-            <View
-                android:id="@+id/background"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:minWidth="300dp"
-                android:visibility="invisible"
-                android:background="@drawable/background_beacon_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible"/>
-
-            <ImageView
-                android:id="@+id/icon_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:src="@{model.getIcon(context)}"
-                android:transitionName="icon_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/background"
-                tools:background="@drawable/ic_games"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/category_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:text="@{model.getCategoryText(context)}"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="@+id/icon_image"
-                app:layout_constraintStart_toStartOf="@+id/icon_image"
-                app:layout_constraintTop_toBottomOf="@+id/icon_image" />
-
-            <include
-                android:id="@+id/question_view"
-                layout="@layout/view_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_text"
-                app:layout_constraintVertical_bias="1.0"
-                tools:visibility="gone"
-                bind:model="@{model.questionModel}" />
-
-            <Button
-                android:id="@+id/collect_free_points_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/button_rounded"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:visibility="invisible"
-                android:text="@string/action_collect_points"
-                app:layout_constraintBottom_toBottomOf="@+id/background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/category_text" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </RelativeLayout>
 
 </layout>

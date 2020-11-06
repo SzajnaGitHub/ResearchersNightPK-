@@ -3,17 +3,20 @@ package com.esspresso.nocnaukowcwpk.main.barcode
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Handler
 import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.esspresso.nocnaukowcwpk.beacons.BeaconConfigModel
 import com.esspresso.nocnaukowcwpk.core.App
 import com.esspresso.nocnaukowcwpk.di.QRCodeImageBitmap
 import com.esspresso.nocnaukowcwpk.utils.toBitmap
 import com.google.mlkit.vision.common.InputImage
 import com.jakewharton.rxrelay3.Relay
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -22,6 +25,7 @@ import javax.inject.Inject
 class CameraManager @Inject constructor(private val barCodeManager: BarCodeManager, @QRCodeImageBitmap private val qrImageRelay: Relay<Bitmap>) {
 
     private lateinit var cameraExecutor: ExecutorService
+    val beaconModelSubject: BehaviorSubject<BeaconConfigModel> = BehaviorSubject.create()
 
     fun setupCamera(fragment: Fragment, view: PreviewView) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(fragment.requireContext())
@@ -32,6 +36,8 @@ class CameraManager @Inject constructor(private val barCodeManager: BarCodeManag
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
+
+    fun closeCurrentImage() = barCodeManager.clearImage()
 
     private fun takePhoto(imageCapture: ImageCapture, action: (ImageProxy) -> Unit) {
         imageCapture.takePicture(cameraExecutor, object : ImageCapture.OnImageCapturedCallback() {
@@ -59,7 +65,7 @@ class CameraManager @Inject constructor(private val barCodeManager: BarCodeManag
         .setTargetResolution(App.screenSizeDp).build()
 
     private fun getImageAnalysis() = ImageAnalysis.Builder()
-        .setTargetResolution(Size(1280, 720))
+        .setTargetResolution(Size(1280, 1024))
         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
         .build()
 
@@ -67,10 +73,10 @@ class CameraManager @Inject constructor(private val barCodeManager: BarCodeManag
         imageAnalysis.setAnalyzer(cameraExecutor, { imageProxy ->
             imageProxy.image?.let { image ->
                 takePhoto(imageCapture) { outputProxy ->
-                    outputProxy.cropRect
                     val outputImage = outputProxy.image?.toBitmap() ?: return@takePhoto
                     barCodeManager.scanImage(InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees), imageProxy) {
-                        qrImageRelay.accept(outputImage)
+                        beaconModelSubject.onNext(it)
+                        //qrImageRelay.accept(outputImage)
                     }
                 }
             }

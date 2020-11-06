@@ -63,6 +63,7 @@
             android:scrollbars="none"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layoutAnimation="@anim/recycler_item_fall_down"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

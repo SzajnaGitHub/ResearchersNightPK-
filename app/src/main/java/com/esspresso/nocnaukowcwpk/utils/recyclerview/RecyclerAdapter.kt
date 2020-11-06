@@ -32,7 +32,6 @@ class RecyclerAdapter<T : RecyclerModel>(
     override fun onBindViewHolder(holder: DataBindingViewHolder<ViewDataBinding>, position: Int) {
         val item = items[position]
         val root = holder.binding.root
-        println("TEKST LOL $position $item")
         holder.binding.setVariable(variableId, item)
         root.setOnClickListener {
             currentItemPosition = position
@@ -86,5 +85,4 @@ class RecyclerAdapter<T : RecyclerModel>(
             //    onItemAdditionAction?.invoke()
         }
     }
-
 }

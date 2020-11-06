@@ -26,7 +26,7 @@ class BeaconManager @Inject constructor(
         .map { ArrayList(it) }
         .observeOn(AndroidSchedulers.mainThread())
 
-    private fun checkItemAnswered(id: String): Boolean {
+    fun checkItemAnswered(id: String): Boolean {
         val questionAnswered = store.userQuestionAnsweredCorrectly + store.userQuestionAnsweredIncorrectly
         return questionAnswered.contains(id)
     }

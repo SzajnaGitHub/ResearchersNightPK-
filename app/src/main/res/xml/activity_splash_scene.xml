@@ -49,8 +49,8 @@
 
         <Constraint android:id="@+id/pk_logo">
             <Layout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +61,10 @@
     <Transition
         app:constraintSetEnd="@id/fill_state"
         app:constraintSetStart="@+id/start_state"
-        app:autoTransition="animateToEnd"
         app:duration="600">
     </Transition>
 
     <Transition
-        android:id="@+id/end_transition"
         app:constraintSetEnd="@id/end_state"
         app:constraintSetStart="@id/fill_state"
         app:duration="500">

@@ -6,7 +6,6 @@
 
     <data>
         <import type="kotlin.jvm.functions.Function1" />
-        <import type="kotlin.jvm.functions.Function0" />
         <import type="java.util.ArrayList" />
         <import type="com.esspresso.nocnaukowcwpk.beacons.BeaconModel" />
         <import type="android.view.View"/>
@@ -18,14 +17,6 @@
         <variable
             name="beaconClickHandler"
             type="Function1&lt;BeaconModel, kotlin.Unit>" />
-
-        <variable
-            name="onListEmptyAction"
-            type="Function0&lt;kotlin.Unit>" />
-
-        <variable
-            name="onListNoLongerEmptyAction"
-            type="Function0&lt;kotlin.Unit>" />
 
         <variable
             name="loading"
@@ -48,8 +39,6 @@
             itemLayout="@{@layout/item_beacon}"
             items="@{list}"
             variableName="@{`model`}"
-            onListEmptyAction="@{onListEmptyAction}"
-            onListNoLongerEmptyAction="@{onListNoLongerEmptyAction}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layoutAnimation="@anim/recycler_item_fall_down"

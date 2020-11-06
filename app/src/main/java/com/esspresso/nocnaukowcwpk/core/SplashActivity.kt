@@ -1,7 +1,7 @@
 package com.esspresso.nocnaukowcwpk.core
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
@@ -23,8 +23,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setupTransition(layout: MotionLayout) {
-        var fillTimerRan = false
-        var endTimerRan = false
+        runDelayedAction(300) { layout.transitionToState(R.id.fill_state) }
 
         layout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
@@ -32,25 +31,21 @@ class SplashActivity : AppCompatActivity() {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
             override fun onTransitionCompleted(p0: MotionLayout?, state: Int) {
                 when (state) {
-                    R.id.fill_state -> if (!fillTimerRan) {
-                        fillTimerRan = true
-                        runDelayedAction { layout.transitionToState(R.id.end_state) }
-                    }
-                    R.id.end_state -> if (!endTimerRan) {
-                        endTimerRan = true
-                        Handler().postDelayed({
-                            startActivity(MainActivity.createIntent(this@SplashActivity))
-                            finish()
-                        }, 300)
-                    }
+                    R.id.fill_state -> runDelayedAction { layout.transitionToState(R.id.end_state) }
+                    R.id.end_state -> runDelayedAction(400) { finishSplash() }
                     else -> {}
                 }
             }
         })
     }
 
-    private fun runDelayedAction(action: () -> Unit) {
-        Completable.timer(200, TimeUnit.MILLISECONDS)
+    private fun finishSplash() {
+        startActivity(MainActivity.createIntent(this@SplashActivity).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
+        finish()
+    }
+
+    private fun runDelayedAction(delay: Long = 200, action: () -> Unit) {
+        Completable.timer(delay, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 action.invoke()

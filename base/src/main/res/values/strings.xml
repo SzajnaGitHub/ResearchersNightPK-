@@ -2,32 +2,39 @@
     <string name="app_name" translatable="false">Noc naukowców PK</string>
     <string name="company_logo_header">Powered by</string>
 
-
     <!-- CATEGORIES -->
-    <string name="category_technology" translatable="false">Technology</string>
-    <string name="category_science" translatable="false">Science</string>
-    <string name="category_mechanics" translatable="false">Mechanics</string>
-    <string name="category_games" translatable="false">Games</string>
-    <string name="category_vehicles" translatable="false">Vehicles</string>
-    <string name="category_buildings" translatable="false">Building</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_science">Science</string>
+    <string name="category_mechanics">Mechanics</string>
+    <string name="category_games">Games</string>
+    <string name="category_vehicles">Vehicles</string>
+    <string name="category_buildings">Building</string>
+
+    <!-- MENU ITEMS -->
+    <string name="menu_item_map">Map</string>
+    <string name="menu_item_scanner">Scanner</string>
+    <string name="menu_item_qr">QR</string>
+    <string name="menu_item_schedule">Schedule</string>
+    <string name="menu_item_profile">Profile</string>
+    <string name="menu_item_info">Info</string>
 
     <!--QUESTIONS -->
     <!--GAMES -->
-    <string name="question_buildings_1" translatable="false">Ile wejść znajduje się w budynku A?</string>
+    <string name="question_buildings_1">How many entries are in the Building A?</string>
     <string name="answer_buildings_1_a" translatable="false">2</string>
     <string name="answer_buildings_1_b" translatable="false">4</string>
     <string name="answer_buildings_1_c" translatable="false">3</string>
     <string name="answer_buildings_1_d" translatable="false">6</string>
 
     <!--MECHANICS -->
-    <string name="question_mechanics_1" translatable="false">Jaką nazwę nosi symulator tramwaju znajdujący się w budynku J?</string>
+    <string name="question_mechanics_1">What is the name of tram simulator located in the Building J?</string>
     <string name="answer_mechanics_1_a" translatable="false">NGT6</string>
     <string name="answer_mechanics_1_b" translatable="false">GN56</string>
     <string name="answer_mechanics_1_c" translatable="false">GT09</string>
     <string name="answer_mechanics_1_d" translatable="false">TRBJ</string>
 
     <!--TECHNOLOGY -->
-    <string name="question_technology_1" translatable="false">Sala, w której znajduje się symulator F-16 to.</string>
+    <string name="question_technology_1">What is the name of the room where F-16 simulator is located?</string>
     <string name="answer_technology_1_a" translatable="false">G129</string>
     <string name="answer_technology_1_b" translatable="false">G125</string>
     <string name="answer_technology_1_c" translatable="false">B220</string>
@@ -41,6 +48,11 @@
     <string name="text_status">Status</string>
     <string name="text_distance">Distance</string>
     <string name="text_answered_questions">Answered questions:</string>
+    <string name="text_question_answered">questions answered: %1$d</string>
+    <string name="text_app_version">App version: %1$s</string>
     <string name="text_total_points">Total points:</string>
+    <string name="text_points_already_collected">Points already collected</string>
+    <string name="text_tap_to_start_searching">Tap to start searching</string>
+    <string name="app_author">Author: Marcin Szajna</string>
 
 </resources>

@@ -48,6 +48,7 @@ class ProfileFragment : Fragment() {
             .subscribe({
                 binding.items = it
                 binding.questionCategoryList.adapter?.notifyDataSetChanged()
+                binding.questionCategoryList.scheduleLayoutAnimation()
             },{})
             .let(disposable::add)
     }
