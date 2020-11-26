@@ -2,8 +2,10 @@ package com.esspresso.nocnaukowcwpk.questions
 
 import androidx.annotation.Keep
 import com.esspresso.nocnaukowcwpk.beacons.BeaconId
+import com.squareup.moshi.JsonClass
 
 @Keep
+@JsonClass(generateAdapter = true)
 data class QuestionConfigModel(
     val major: String,
     val minor: String,

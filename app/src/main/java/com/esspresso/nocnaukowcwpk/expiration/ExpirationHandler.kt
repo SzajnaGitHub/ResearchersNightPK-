@@ -4,7 +4,8 @@ import java.util.concurrent.TimeUnit
 
 class ExpirationHandler {
 
-    private val itemExpirationMap = mutableMapOf<String, Long>()
+    var itemExpirationMap = mutableMapOf<String, Long>()
+        private set
 
     fun setExpirationTimer(id: String) {
         itemExpirationMap[id] = getCurrentTimeInMinutes()

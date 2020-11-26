@@ -1,7 +1,7 @@
 package com.esspresso.nocnaukowcwpk.config
 
 import com.esspresso.nocnaukowcwpk.beacons.BeaconConfigModel
-import com.esspresso.nocnaukowcwpk.faculties.FacultyModel
+import com.esspresso.nocnaukowcwpk.main.eventinfo.EventInfoConfigModel
 import com.esspresso.nocnaukowcwpk.questions.QuestionConfigModel
 import com.esspresso.nocnaukowcwpk.utils.JsonParser
 import com.google.firebase.ktx.Firebase
@@ -14,9 +14,9 @@ import javax.inject.Singleton
 class RemoteConfigManager @Inject constructor(private val jsonParser: JsonParser) {
     private val remoteConfig = Firebase.remoteConfig
 
-    fun getFaculties() = jsonParser.parseList(remoteConfig.getString("faculties"), FacultyModel::class.java)
     fun getBeacons() = jsonParser.parseList(remoteConfig.getString("beacons"), BeaconConfigModel::class.java)
     fun getQuestions() = jsonParser.parseList(remoteConfig.getString("beacon_questions"), QuestionConfigModel::class.java)
+    fun getEventScheduleItems() = jsonParser.parseList(remoteConfig.getString("event_schedule"), EventInfoConfigModel::class.java)
 
     init {
         val defaults = mapOf(
@@ -40,14 +40,3 @@ class RemoteConfigManager @Inject constructor(private val jsonParser: JsonParser
         remoteConfig.fetchAndActivate()
     }
 }
-
-/*
-        val architecture = LatLng(50.075468, 19.909633)
-        val materialAndPhysics = LatLng(50.075626, 19.908789)
-        val mechanicalEngineering = LatLng(50.075219, 19.997690)
-        val civilEngineering = LatLng(50.071500, 19.071500)
-        val envAndPowerEngineering = LatLng(50.072239, 19.943927)
-        val compScienceAndTelecommunications = LatLng(50.071259, 19.941291)
-        val electricalAndCompEngineering = LatLng(50.071006, 19.943079)
-        val chemicalEngineeringAndTech = LatLng(50.071488, 19.940927)
- */

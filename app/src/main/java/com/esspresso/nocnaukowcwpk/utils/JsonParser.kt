@@ -3,7 +3,6 @@ package com.esspresso.nocnaukowcwpk.utils
 import android.util.MalformedJsonException
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,4 +28,15 @@ class JsonParser @Inject constructor(private val moshi: Moshi) {
         catch (exception: Exception) { }
         return model
     }
+
+    fun <T> parseToString(value: T, tag: Class<T>): String {
+        var jsonString = ""
+        try {
+            moshi.adapter(tag).toJson(value)?.let { jsonString = it }
+        }
+        catch (malformedJson: MalformedJsonException) { }
+        catch (exception: Exception) { }
+        return jsonString
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.esspresso.nocnaukowcwpk.main
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -9,8 +8,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
@@ -68,7 +65,6 @@ class ListFragment : Fragment() {
         getNearbyBeacons()
         setupButtons()
         subscribeToStatus()
-        statusManager.register()
     }
 
     override fun onStart() {
@@ -229,6 +225,7 @@ class ListFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        statusManager.dispose()
         disposable.clear()
         super.onDestroy()
     }

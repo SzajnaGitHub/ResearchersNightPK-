@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
@@ -21,19 +22,26 @@ import com.jakewharton.rxrelay3.Relay
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class BarCodeReaderFragment : Fragment() {
     @Inject
     internal lateinit var cameraManager: CameraManager
+
     @Inject
     internal lateinit var permissionManager: PermissionManager
+
     @Inject
     internal lateinit var beaconManager: BeaconManager
+
     @Inject
     @QRCodeImageBitmap
     internal lateinit var qrImageRelay: Relay<Bitmap>
+
+    @Inject
+    internal lateinit var db: UserQuestionsDatabase
 
     private lateinit var binding: FragmentBarCodeReaderBinding
     private val disposables = CompositeDisposable()
@@ -104,15 +112,20 @@ class BarCodeReaderFragment : Fragment() {
 
     private fun subscribeToBeaconModelSubject() {
         cameraManager.beaconModelSubject.observeOn(AndroidSchedulers.mainThread()).subscribe { model ->
-            if (beaconManager.checkItemAnswered(model.id.toString())) {
-                Toast.makeText(context, getString(R.string.text_points_already_collected), Toast.LENGTH_LONG).show()
-                Handler().postDelayed({
-                    cameraManager.closeCurrentImage()
-                    binding.imageView.setImageDrawable(null)
-                }, 2000)
-            } else {
-                startActivity(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId))
-            }
+            db.getUserQuestionsDao().getSingleQuestion(model.id.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError {
+                    startActivity(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId))
+                }
+                .subscribe {
+                    Toast.makeText(context, getString(R.string.text_points_already_collected), Toast.LENGTH_LONG).show()
+                    Handler().postDelayed({
+                        cameraManager.closeCurrentImage()
+                        binding.imageView.setImageDrawable(null)
+                    }, 2000)
+                }
+                .let(disposables::add)
         }.let(disposables::add)
     }
 

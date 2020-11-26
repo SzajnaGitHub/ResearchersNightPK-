@@ -10,14 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import com.esspresso.db.userquestions.UserQuestion
+import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.databinding.ActivityBeaconItemBinding
 import com.esspresso.nocnaukowcwpk.questions.QuestionManager
+import com.esspresso.nocnaukowcwpk.questions.QuestionModel
 import com.esspresso.nocnaukowcwpk.store.KeyValueStore
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.view_question.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -28,6 +32,8 @@ class BeaconCardActivity : AppCompatActivity() {
     internal lateinit var questionManager: QuestionManager
     @Inject
     internal lateinit var store: KeyValueStore
+    @Inject
+    internal lateinit var db: UserQuestionsDatabase
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityBeaconItemBinding>(this, R.layout.activity_beacon_item) }
     private val disposables = CompositeDisposable()
@@ -68,7 +74,7 @@ class BeaconCardActivity : AppCompatActivity() {
                     R.id.radio_option_4 -> (questionModel.answerD == questionModel.correctAnswer).also { binding.questionView.answerGroup.radio_option_4.setBackgroundColor(getBackgroundColor(it)) }
                     else -> false
                 }
-                submitAnswer(userAnsweredCorrectly, questionModel.id.toString())
+                submitAnswer(userAnsweredCorrectly, questionModel)
             }
         }
         binding.toolbar.setOnClickListener {
@@ -76,19 +82,16 @@ class BeaconCardActivity : AppCompatActivity() {
         }
     }
 
-    private fun submitAnswer(userAnsweredCorrectly: Boolean, questionId: String) {
+    private fun submitAnswer(userAnsweredCorrectly: Boolean, model: QuestionModel) {
         if (!answerSubmitted) {
             answerSubmitted = true
-            if (userAnsweredCorrectly) {
-                val answers = store.userQuestionAnsweredCorrectly.toMutableSet()
-                answers.add(questionId)
-                store.userQuestionAnsweredCorrectly = answers
-            } else {
-                val answers = store.userQuestionAnsweredIncorrectly.toMutableSet()
-                answers.add(questionId)
-                store.userQuestionAnsweredIncorrectly = answers
-            }
-            finishWithResult()
+            db.getUserQuestionsDao().upsert(UserQuestion(id = model.id.toString(),questionAnsweredCorrectly = userAnsweredCorrectly, category = model.category, points = model.points))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    finishWithResult()
+                }
+                .let(disposables::add)
         }
     }
 

@@ -38,27 +38,17 @@ class QuestionManager @Inject constructor(private val remoteConfig: RemoteConfig
     }
 
     fun getQuestion(id: BeaconId) = questionList.find { it.id == id }
-    private fun getQuestion(id: String) = questionList.find { it.id.toString() == id }
-
-    fun getUserPoints(answeredQuestions: Set<String>): Int {
-        var points = 0
-        answeredQuestions.forEach {
-            points += getQuestion(it)?.points ?: 0
-        }
-        return points
-    }
 
     fun getUserAnsweredCategories(answeredQuestions: Set<String>): Single<List<ItemCategoryModel>> = Single.just(answeredQuestions)
         .subscribeOn(Schedulers.single())
-        .map { it.map { item -> getQuestion(item) } }
         .map { answeredQuestionsList ->
             listOf(
-                ItemCategoryModel(CATEGORY_TECHNOLOGY, answeredQuestionsList.filter { it?.category == CATEGORY_TECHNOLOGY }.size),
-                ItemCategoryModel(CATEGORY_SCIENCE, answeredQuestionsList.filter { it?.category == CATEGORY_SCIENCE }.size),
-                ItemCategoryModel(CATEGORY_MECHANICS, answeredQuestionsList.filter { it?.category == CATEGORY_MECHANICS }.size),
-                ItemCategoryModel(CATEGORY_GAMES, answeredQuestionsList.filter { it?.category == CATEGORY_GAMES }.size),
-                ItemCategoryModel(CATEGORY_VEHICLES, answeredQuestionsList.filter { it?.category == CATEGORY_VEHICLES }.size),
-                ItemCategoryModel(CATEGORY_BUILDINGS, answeredQuestionsList.filter { it?.category == CATEGORY_BUILDINGS }.size)
+                ItemCategoryModel(CATEGORY_TECHNOLOGY, answeredQuestionsList.filter { it == CATEGORY_TECHNOLOGY }.size),
+                ItemCategoryModel(CATEGORY_SCIENCE, answeredQuestionsList.filter { it == CATEGORY_SCIENCE }.size),
+                ItemCategoryModel(CATEGORY_MECHANICS, answeredQuestionsList.filter { it == CATEGORY_MECHANICS }.size),
+                ItemCategoryModel(CATEGORY_GAMES, answeredQuestionsList.filter { it == CATEGORY_GAMES }.size),
+                ItemCategoryModel(CATEGORY_VEHICLES, answeredQuestionsList.filter { it == CATEGORY_VEHICLES }.size),
+                ItemCategoryModel(CATEGORY_BUILDINGS, answeredQuestionsList.filter { it == CATEGORY_BUILDINGS }.size)
             )
         }
         .observeOn(AndroidSchedulers.mainThread())

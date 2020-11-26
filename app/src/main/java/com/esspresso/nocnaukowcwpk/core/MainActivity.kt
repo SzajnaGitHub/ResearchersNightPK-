@@ -8,15 +8,13 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
-import com.esspresso.nocnaukowcwpk.database.DatabaseManager
-import com.esspresso.nocnaukowcwpk.database.user.DBUserModel
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
-import com.esspresso.nocnaukowcwpk.main.EventInfoFragment
+import com.esspresso.nocnaukowcwpk.main.eventinfo.EventInfoFragment
 import com.esspresso.nocnaukowcwpk.main.ListFragment
 import com.esspresso.nocnaukowcwpk.main.SettingsFragment
 import com.esspresso.nocnaukowcwpk.main.barcode.BarCodeReaderFragment
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     internal lateinit var permissionManager: PermissionManager
     @Inject
-    internal lateinit var databaseManager: DatabaseManager
+    internal lateinit var userQuestionsDatabase: UserQuestionsDatabase
 
     private val disposables = CompositeDisposable()
     private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
@@ -48,11 +46,6 @@ class MainActivity : AppCompatActivity() {
         setupTransitionListener()
         setupMenuBackClick()
         setupMenuOnClick()
-        val user = DBUserModel().apply {
-            number_of_points = 16
-        }
-        databaseManager.initialUserModel = user
-        //  Handler().postDelayed({ databaseManager.saveUserToDatabase() }, 5000)
     }
 
     private fun setupMenu() {
@@ -106,7 +99,8 @@ class MainActivity : AppCompatActivity() {
             currentFragment = fragment
             binding.fragmentContainer.visibility = View.VISIBLE
             binding.fragmentContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in))
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     private fun transitionToStart() {

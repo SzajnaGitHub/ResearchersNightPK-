@@ -24,24 +24,17 @@ class StatusManager @Inject constructor(
     @LocationState private val locationRelay: Relay<Boolean>
 ) {
     private val disposables = CompositeDisposable()
-    private val bluetooth by lazy(LazyThreadSafetyMode.NONE) { BluetoothAdapter.getDefaultAdapter() }
+    private val bluetooth by lazy(LazyThreadSafetyMode.NONE) { BluetoothAdapter.getDefaultAdapter() ?: null }
     private val subject = BehaviorSubject.create<Unit>()
-
     private var statusModel = getInitialModel()
 
-    private fun isBluetoothEnabled() = bluetooth.isEnabled
+    private fun isBluetoothEnabled() = bluetooth?.isEnabled ?: false
     private fun isLocationEnabled() = LocationManagerCompat.isLocationEnabled(locationManager)
     private fun isInternetEnabled() = connectivityManager.activeNetworkInfo?.isConnected == true
-    fun isAllEnabled() = isBluetoothEnabled() && isLocationEnabled() && isInternetEnabled()
-
     private fun getInitialModel() = StatusModel(isInternetEnabled(), isBluetoothEnabled(), isLocationEnabled())
-    fun register() {
-        statusModel = getInitialModel()
-    }
 
     private fun subscribeToEnterRangeChanges() {
         enterRangeRelay.distinctUntilChanged().observeOn(AndroidSchedulers.mainThread()).subscribe { searching ->
-            println("TEKST SEARCHING $searching")
         }.let(disposables::add)
 
         locationRelay

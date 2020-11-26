@@ -7,12 +7,14 @@ import com.esspresso.nocnaukowcwpk.utils.CategoryResolver
 import com.esspresso.nocnaukowcwpk.utils.RssiResolver
 import com.esspresso.nocnaukowcwpk.utils.recyclerview.RecyclerModel
 import com.esspresso.nocnaukowcwpk.utils.translateFromId
+import com.squareup.moshi.JsonClass
 import org.altbeacon.beacon.Beacon
 import kotlin.math.roundToInt
 
 typealias BeaconId = Pair<String, String>
 
 @Keep
+@JsonClass(generateAdapter = true)
 data class BeaconConfigModel(private val major: String, private val minor: String, val categoryId: String) {
     val id = BeaconId(major, minor)
 }
@@ -37,10 +39,14 @@ data class BeaconModel(
     }
 
     companion object {
-        fun create(beacon: Beacon) = BeaconModel(
-            id = BeaconId(beacon.id2.toString(), beacon.id3.toString()),
-            distance = beacon.distance,
-            signalStrength = RssiResolver.resolve(beacon.runningAverageRssi.roundToInt()),
-        )
+        fun create(beacon: Beacon, beaconList: List<BeaconConfigModel>): BeaconModel {
+            val id = BeaconId(beacon.id2.toString(), beacon.id3.toString())
+            return BeaconModel(
+                id = id,
+                distance = beacon.distance,
+                signalStrength = RssiResolver.resolve(beacon.runningAverageRssi.roundToInt()),
+                categoryId = beaconList.find { it.id == id }?.categoryId
+            )
+        }
     }
 }

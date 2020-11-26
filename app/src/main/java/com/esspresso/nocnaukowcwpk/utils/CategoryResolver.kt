@@ -14,7 +14,7 @@ object CategoryResolver {
         CATEGORY_GAMES -> ContextCompat.getDrawable(context, R.drawable.ic_games)
         CATEGORY_VEHICLES -> ContextCompat.getDrawable(context, R.drawable.ic_car)
         CATEGORY_BUILDINGS -> ContextCompat.getDrawable(context, R.drawable.ic_building)
-        else -> ContextCompat.getDrawable(context, R.drawable.ic_mechanics_2)
+        else -> null
     }
 
     const val CATEGORY_TECHNOLOGY = "category_technology"

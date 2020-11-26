@@ -51,8 +51,7 @@ class QRTargetView(context: Context, attrs: AttributeSet?) : View(context, attrs
 
     }
 
-
-    fun drawTopSquares(canvas: Canvas) {
+    private fun drawTopSquares(canvas: Canvas) {
         canvas.save()
         clipPath.addRect(
             width * 0.03f,
