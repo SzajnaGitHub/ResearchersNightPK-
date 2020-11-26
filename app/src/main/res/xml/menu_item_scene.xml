@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start" />
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/background">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Transform android:elevation="2dp" />
+        </Constraint>
+
+        <Constraint android:id="@+id/content">
+            <Transform android:elevation="2dp" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/icon_map"
+            app:layout_constraintHorizontal_bias="0.4">
+            <Transform android:elevation="3dp" />
+            <Layout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/background"
+                app:layout_constraintEnd_toEndOf="@id/background"
+                app:layout_constraintStart_toStartOf="@id/background"
+                app:layout_constraintTop_toTopOf="@id/background" />
+        </Constraint>
+
+        <Constraint android:id="@+id/icon_arrow_back">
+            <Transform android:elevation="3dp" />
+            <Layout
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/background"
+                app:layout_constraintStart_toStartOf="@id/background"
+                app:layout_constraintTop_toTopOf="@id/background" />
+        </Constraint>
+
+        <Constraint android:id="@+id/title">
+            <Transform android:elevation="3dp" />
+            <Layout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/background"
+                app:layout_constraintStart_toEndOf="@id/icon_map"
+                app:layout_constraintTop_toTopOf="@id/background" />
+        </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="500" />
+</MotionScene>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start_state">
+        <Constraint android:id="@+id/background">
+            <CustomAttribute
+                app:attributeName="backgroundColor"
+                app:customColorValue="@color/cyan_blue" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/fill_state">
+
+        <Constraint android:id="@+id/background">
+            <CustomAttribute
+                app:attributeName="backgroundColor"
+                app:customColorValue="@color/cyan_blue" />
+        </Constraint>
+
+        <Constraint android:id="@+id/pk_logo">
+            <Layout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end_state">
+        <Constraint android:id="@+id/background">
+            <CustomAttribute
+                app:attributeName="backgroundColor"
+                app:customColorValue="@color/light_cyan_blue" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/event_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/company_logo_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pk_logo" />
+
+        <Constraint android:id="@+id/pk_logo">
+            <Layout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/fill_state"
+        app:constraintSetStart="@+id/start_state"
+        app:duration="600">
+    </Transition>
+
+    <Transition
+        app:constraintSetEnd="@id/end_state"
+        app:constraintSetStart="@id/fill_state"
+        app:duration="500">
+        <KeyFrameSet>
+            <KeyAttribute
+                app:framePosition="40"
+                app:motionTarget="@+id/background">
+                <CustomAttribute
+                    app:attributeName="backgroundColor"
+                    app:customColorValue="@color/light_cyan_blue" />
+            </KeyAttribute>
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>

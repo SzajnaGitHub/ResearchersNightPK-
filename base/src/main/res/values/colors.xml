@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">@color/light_cyan_blue</color>
+    <color name="colorPrimaryDark">@color/cyan_blue</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="category_icon">#000</color>
+
+    <color name="item_available">#00FF66</color>
+    <color name="item_unavailable">#FD1D1D</color>
+
+    <color name="cyan_blue">#013571</color>
+    <color name="light_cyan_blue">#004179</color>
+    <color name="gray">#BFBFBF</color>
+
+    <color name="menu_blue">#6898d3</color>
+    <color name="menu_brown">#e0b894</color>
+    <color name="menu_green">#BAFF8C</color>
+    <color name="menu_pink">#ffb4bb</color>
+    <color name="menu_purple">#bfb9ff</color>
+    <color name="menu_yellow">#D3D388</color>
+
 </resources>

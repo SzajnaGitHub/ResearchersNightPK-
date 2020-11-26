@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+
+<Style id="hallway"><PolyStyle><color>ff8ce0f5</color></PolyStyle></Style>
+<Style id="A"><PolyStyle><color>ff876df7</color></PolyStyle></Style>
+<Style id="B"><PolyStyle><color>ffe5f8a9</color></PolyStyle></Style>
+<Style id="C"><PolyStyle><color>fff79ca8</color></PolyStyle></Style>
+<Style id="D"><PolyStyle><color>ff8a0c0c</color></PolyStyle></Style>
+<Style id="E"><PolyStyle><color>ff304404</color></PolyStyle></Style>
+<Style id="F"><PolyStyle><color>ff8ce0f5</color></PolyStyle></Style>
+<Style id="G"><PolyStyle><color>ff4a0668</color></PolyStyle></Style>
+<Style id="H"><PolyStyle><color>ffc8dffc</color></PolyStyle></Style>
+<Style id="J"><PolyStyle><color>ffc8dffc</color></PolyStyle></Style>
+<Style id="K"><PolyStyle><color>ffc8dffc</color></PolyStyle></Style>
+
+<Placemark>
+<name>A</name>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.99757928790715,50.07468115566698,0 19.99757803174202,50.074680296230824,0 19.997792212953147,50.07469259730158,0 19.997683884430273,50.07552939326525,0 19.997469978261336,50.07551734359916,0 19.99757928790715,50.07468115566698,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#A</styleUrl></Placemark>
+
+<Placemark>
+<altitudeMode>relativeToGround</altitudeMode>
+<drawOrder>2</drawOrder>
+<Style id="yes"><LineStyle><width>1</width><color>ff8ce0f5</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995820269428478,50.07458764417473,500 19.995812546803137,50.074628394141534,500 19.99757600513286,50.07471747718156,500 19.997578968592777,50.07468020068832,500 19.995820269428478,50.07458764417473,500 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#hallway</styleUrl></Placemark>
+
+<Placemark>
+<altitudeMode>relativeToGround</altitudeMode>
+<drawOrder>2</drawOrder>
+<Style id="yes"><LineStyle><width>1</width><color>ff8ce0f5</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.99575541050908,50.07507293155886,500 19.99576849852827,50.07496774820917,500 19.996992503702845,50.07503294171231,500 19.996986221421032,50.07509297995512,500 19.997521992671757,50.07512353473014,500 19.99751911134222,50.07516160862042,500 19.99575541050908,50.07507293155886,500 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#hallway</styleUrl></Placemark>
+
+<Placemark>
+<name>D</name>
+<tessellate>1</tessellate>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995977090078384,50.07508001301462,0 19.9957551372824,50.075075445332345,0 19.995820180851013,50.074587426813025,0 19.996038780885726,50.07460033741981,0 19.995977090078384,50.07508491301462,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#E</styleUrl></Placemark>
+
+<Placemark>
+<name>C</name>
+<tessellate>1</tessellate>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.99625738092044,50.07509653244036,0 19.996479333716422,50.07510944291006,0 19.996541024523765,50.07462788003604,0 19.996321753936797,50.07461884261683,0 19.99625738092044,50.07509653244036,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#E</styleUrl></Placemark>
+
+<Placemark>
+<name>B</name>
+<tessellate>1</tessellate>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.997040219994645,50.074650531465185,0 19.996822290512185,50.0746663547572,0 19.996760599704842,50.07512222093316,0 19.996978529187302,50.07512254930156,0 19.997040219994645,50.074654531465185,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#E</styleUrl></Placemark>
+
+<Placemark>
+<name>E</name>
+<extrude>1</extrude>
+<altitudeMode>relativeToGround</altitudeMode>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995676682668716,50.07540337033031,0 19.996970177966148,50.07547222568804,0 19.997013093310386,50.07513612453649,0 19.99572093911746,50.07507114183975,0 19.995676682668716,50.07540337033031,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#E</styleUrl></Placemark>
+
+<Placemark>
+<name>JKH</name>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.995179063013712,50.07551726813158,0 19.995402398425835,50.075530178488016,0 19.995349206842018,50.07592184899266,0 19.99563211515012,50.07593712611849,0 19.995687081447553,50.07554456827856,0 19.995905546342048,50.07555677198644,0 19.99585236309532,50.07597362642059,0 19.99612594841484,50.07598395460772,0 19.996069491264485,50.07640866566224,0 19.995031684451916,50.07634923525747,0 19.995078857512574,50.07600843661569,0 19.995110708744626,50.076010373149536,0 19.995179063013712,50.07551726813158,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#J</styleUrl></Placemark>
+
+<Placemark>
+<name>G</name>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.994225428877535,50.075671859466986,0 19.99473912958239,50.07569857781842,0 19.994665304748462,50.07631341552198,0 19.9941500833689,50.076287069542055,0 19.994225428877535,50.075671859466986,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#G</styleUrl></Placemark>
+
+<Placemark>
+<name>F</name>
+<Style id="thickLine"><LineStyle><width>1</width><color>7fffff00</color></LineStyle></Style>
+<Polygon><outerBoundaryIs><LinearRing><coordinates>19.994278527486962,50.07528486198021,0 19.99471036313836,50.07530896142622,0 19.994731150258225,50.07519018546789,0 19.994297302950066,50.075165225265316,0 19.994278527486962,50.07528486198021,0 </coordinates></LinearRing></outerBoundaryIs></Polygon><styleUrl>#F</styleUrl></Placemark>
+
+</Document>
+</kml>

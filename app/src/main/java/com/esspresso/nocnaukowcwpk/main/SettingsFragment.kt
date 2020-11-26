@@ -11,17 +11,12 @@ import com.esspresso.nocnaukowcwpk.databinding.FragmentSettingsBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SettingsFragment : Fragment() {
-    private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+        binding.versionName = context?.packageName?.let { context?.packageManager?.getPackageInfo(it, 0)?.versionName }
         return binding.root
-    }
-
-    override fun onDestroy() {
-        disposable.dispose()
-        super.onDestroy()
     }
 
     companion object {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CATEGORIES -->
+    <string name="category_technology">Technologia</string>
+    <string name="category_science">Nauka</string>
+    <string name="category_mechanics">Mechanika</string>
+    <string name="category_games">Gry</string>
+    <string name="category_vehicles">Pojazdy</string>
+    <string name="category_buildings">Budynki</string>
+
+    <!-- MENU ITEMS -->
+    <string name="menu_item_map">Mapa</string>
+    <string name="menu_item_scanner">Skaner</string>
+    <string name="menu_item_qr">QR</string>
+    <string name="menu_item_schedule">Program</string>
+    <string name="menu_item_profile">Profil</string>
+    <string name="menu_item_info">Informacje</string>
+
+    <string name="company_logo_header">Powered by</string>
+    <string name="action_submit_answer">Zatwierdź</string>
+    <string name="action_collect_points">Zbierz punkty</string>
+    <string name="permission_required_camera">Wymagane pozwolenie na dostęp do aparatu</string>
+    <string name="text_distance">Dystans</string>
+    <string name="text_answered_questions">Odpowiedziane pytania:</string>
+    <string name="text_total_points">Suma puntków:</string>
+    <string name="text_points_already_collected">Punkty uprzednio dodane</string>
+    <string name="text_status">Status</string>
+    <string name="text_question_answered">pytania odpowiedziane poprawnie: %1$d</string>
+    <string name="text_app_version">Wersja aplikacji: %1$s</string>
+
+    <!-- QUESTIONS -->
+    <string name="question_buildings_1">Ile wejść znajduje się w budynku A?</string>
+    <string name="question_mechanics_1">Jaką nazwę nosi symulator tramwaju znajdujący się w budynku J?</string>
+    <string name="question_technology_1">Sala, w której znajduje się symulator F-16 to.</string>
+    <string name="text_tap_to_start_searching">Stuknij by zacząć wyszukiwanie</string>
+    <string name="app_author">Autor: Marcin Szajna</string>
+</resources>

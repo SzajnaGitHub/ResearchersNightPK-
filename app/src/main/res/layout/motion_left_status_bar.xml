@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.esspresso.nocnaukowcwpk.status.StatusModel" />
+
+        <variable
+            name="rotate"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/motion_left_status_bar_scene"
+        tools:context=".main.profile.ProfileFragment">
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/ripple_background"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/scan_image"
+            app:layout_constraintEnd_toEndOf="@id/scan_image"
+            app:layout_constraintStart_toStartOf="@id/scan_image"
+            app:layout_constraintTop_toTopOf="@id/scan_image"
+            app:rb_color="#0099CC"
+            app:rb_duration="5000"
+            app:rb_radius="20dp"
+            app:rb_rippleAmount="3"
+            app:rb_scale="2"
+            app:rb_type="fillRipple" />
+
+        <TextView
+            android:id="@+id/tap_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/text_tap_to_start_searching"
+            app:layout_constraintBottom_toTopOf="@+id/scan_image"
+            app:layout_constraintEnd_toEndOf="@+id/scan_image"
+            app:layout_constraintStart_toStartOf="@+id/scan_image" />
+
+        <View
+            android:id="@+id/handle"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@drawable/view_circle_red"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/scan_image"
+            app:layout_constraintEnd_toEndOf="@+id/scan_image"
+            app:layout_constraintStart_toStartOf="@+id/scan_image"
+            app:layout_constraintTop_toTopOf="@+id/scan_image"/>
+
+        <TextView
+            android:id="@+id/warning_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:visibility="gone"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/scan_image"
+            app:layout_constraintEnd_toEndOf="@id/scan_image"
+            app:layout_constraintStart_toStartOf="@id/scan_image"
+            app:layout_constraintTop_toTopOf="@id/scan_image" />
+
+        <ImageView
+            android:id="@+id/scan_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_phone_android_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bluetooth_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_bluetooth_24"
+            android:tint="@{model.bluetoothAvailable ? @color/item_available : @color/item_unavailable}"
+            android:layout_marginEnd="32dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/scan_image"
+            app:layout_constraintEnd_toStartOf="@+id/scan_image"
+            app:layout_constraintTop_toTopOf="@+id/handle" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/location_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:tint="@{model.locationAvailable ? @color/item_available : @color/item_unavailable}"
+            android:visibility="gone"
+            android:layout_marginStart="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/scan_image"
+            app:layout_constraintStart_toEndOf="@+id/scan_image"
+            app:layout_constraintTop_toTopOf="@+id/handle"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

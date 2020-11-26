@@ -1,21 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="kotlin.jvm.functions.Function1" />
+        <import type="java.util.ArrayList" />
+        <import type="com.esspresso.nocnaukowcwpk.beacons.BeaconModel" />
+        <import type="android.view.View"/>
+
+        <variable
+            name="list"
+            type="ArrayList&lt;BeaconModel>" />
+
+        <variable
+            name="beaconClickHandler"
+            type="Function1&lt;BeaconModel, kotlin.Unit>" />
+
+        <variable
+            name="loading"
+            type="boolean" />
+
+        <variable
+            name="statusModel"
+            type="com.esspresso.nocnaukowcwpk.status.StatusModel" />
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".main.ListFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            clickHandler="@{beaconClickHandler}"
+            itemLayout="@{@layout/item_beacon}"
+            items="@{list}"
+            variableName="@{`model`}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layoutAnimation="@anim/recycler_item_fall_down"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_beacon" />
 
-    </FrameLayout>
+        <include
+            android:id="@+id/slide_bar"
+            layout="@layout/motion_left_status_bar"
+            bind:model="@{statusModel}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
