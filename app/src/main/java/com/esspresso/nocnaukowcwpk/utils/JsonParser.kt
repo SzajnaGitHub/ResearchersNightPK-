@@ -28,15 +28,4 @@ class JsonParser @Inject constructor(private val moshi: Moshi) {
         catch (exception: Exception) { }
         return model
     }
-
-    fun <T> parseToString(value: T, tag: Class<T>): String {
-        var jsonString = ""
-        try {
-            moshi.adapter(tag).toJson(value)?.let { jsonString = it }
-        }
-        catch (malformedJson: MalformedJsonException) { }
-        catch (exception: Exception) { }
-        return jsonString
-    }
-
 }

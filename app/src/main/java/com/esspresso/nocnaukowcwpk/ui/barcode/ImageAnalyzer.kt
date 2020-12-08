@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.barcode
+package com.esspresso.nocnaukowcwpk.ui.barcode
 
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis

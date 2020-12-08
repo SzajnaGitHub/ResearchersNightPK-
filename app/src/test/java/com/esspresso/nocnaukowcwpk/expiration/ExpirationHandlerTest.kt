@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.TimeUnit
-import kotlin.math.exp
 
 class ExpirationHandlerTest {
     private lateinit var expirationHandler: ExpirationHandler

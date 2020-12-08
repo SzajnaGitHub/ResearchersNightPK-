@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.esspresso.nocnaukowcwpk.core.MenuItemModel" />
+            type="com.esspresso.nocnaukowcwpk.MenuItemModel" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -50,15 +50,16 @@
 
         <ImageView
             android:id="@+id/icon_map"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="50dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@{model.getIconDrawable(context)}"
-            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_map" />
 
         <TextView
             android:id="@+id/title"
@@ -67,9 +68,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{model.title}"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="@+id/icon_map"
             app:layout_constraintStart_toStartOf="@+id/icon_map"
-            app:layout_constraintTop_toBottomOf="@+id/icon_map" />
+            app:layout_constraintTop_toBottomOf="@+id/icon_map"
+            tools:text="@string/menu_item_map" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

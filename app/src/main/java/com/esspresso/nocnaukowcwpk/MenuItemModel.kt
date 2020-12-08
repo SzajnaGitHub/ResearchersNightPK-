@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.core
+package com.esspresso.nocnaukowcwpk
 
 import android.content.Context
 import androidx.annotation.DrawableRes

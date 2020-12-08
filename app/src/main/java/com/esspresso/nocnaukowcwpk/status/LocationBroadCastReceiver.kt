@@ -1,13 +1,11 @@
 package com.esspresso.nocnaukowcwpk.status
 
 import android.app.Activity
-import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
-import com.esspresso.nocnaukowcwpk.di.BluetoothState
 import com.esspresso.nocnaukowcwpk.di.LocationState
 import com.esspresso.nocnaukowcwpk.utils.DialogActivity
 import com.jakewharton.rxrelay3.Relay

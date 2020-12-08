@@ -17,6 +17,10 @@ object RoomModule {
     @Provides
     @Singleton
     fun providesUserQuestionsDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, UserQuestionsDatabase::class.java, "user_questions_db.db").build()
+        Room.databaseBuilder(context, UserQuestionsDatabase::class.java, UserQuestionsDatabase.USER_QUESTION_DATABASE_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideUserQuestionDAO(db: UserQuestionsDatabase) = db.getUserQuestionsDao()
 
 }

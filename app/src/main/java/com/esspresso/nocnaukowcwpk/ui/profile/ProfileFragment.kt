@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.profile
+package com.esspresso.nocnaukowcwpk.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.databinding.FragmentProfileBinding
-import com.esspresso.nocnaukowcwpk.questions.ItemCategoryModel
 import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.store.KeyValueStore
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
     @Inject
     internal lateinit var questionManager: QuestionManager
     @Inject
-    internal lateinit var db: UserQuestionsDatabase
+    internal lateinit var questionsDao: UserQuestionsDao
 
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentProfileBinding
@@ -37,7 +37,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupModel() {
-        db.getUserQuestionsDao().getAllQuestions()
+        questionsDao.getAllQuestions()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { list ->

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
-        tools:context=".main.barcode.BarCodeReaderFragment">
+        tools:context=".ui.barcode.BarCodeReaderFragment">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toTopOf="@id/viewFinder"
             tools:visibility="invisible" />
 
-        <com.esspresso.nocnaukowcwpk.main.barcode.QRTargetView
+        <com.esspresso.nocnaukowcwpk.views.QRTargetView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16dp"

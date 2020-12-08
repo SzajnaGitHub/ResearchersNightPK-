@@ -8,7 +8,7 @@
 
         <variable
             name="items"
-            type="ArrayList&lt;com.esspresso.nocnaukowcwpk.main.eventinfo.EventInfoItemModel>" />
+            type="ArrayList&lt;com.esspresso.nocnaukowcwpk.ui.eventinfo.EventInfoItemModel>" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

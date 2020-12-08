@@ -1,11 +1,9 @@
-package com.esspresso.nocnaukowcwpk.main.barcode
+package com.esspresso.nocnaukowcwpk.ui.barcode
 
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageProxy
-import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconConfigModel
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
-import com.esspresso.nocnaukowcwpk.core.App
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning

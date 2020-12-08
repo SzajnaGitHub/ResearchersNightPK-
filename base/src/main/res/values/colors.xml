@@ -13,11 +13,21 @@
     <color name="light_cyan_blue">#004179</color>
     <color name="gray">#BFBFBF</color>
 
+    <!-- MENU -->
     <color name="menu_blue">#6898d3</color>
     <color name="menu_brown">#e0b894</color>
     <color name="menu_green">#BAFF8C</color>
     <color name="menu_pink">#ffb4bb</color>
     <color name="menu_purple">#bfb9ff</color>
     <color name="menu_yellow">#D3D388</color>
+
+    <!-- BACKROUND -->
+    <color name="nigh_gradient_bottom">#4424bf</color>
+    <color name="nigh_gradient_top">#756cfa</color>
+    <color name="day_gradient_top">#e57c7c</color>
+    <color name="day_gradient_bottom">#e8b052</color>
+
+    <!-- VIEWS -->
+    <color name="moon_yellow">#feee54</color>
 
 </resources>

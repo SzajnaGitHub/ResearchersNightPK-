@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.core
+package com.esspresso.nocnaukowcwpk.ui
 
 import android.content.Intent
 import android.os.Bundle

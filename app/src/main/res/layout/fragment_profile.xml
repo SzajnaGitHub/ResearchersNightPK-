@@ -7,7 +7,7 @@
         <import type="java.util.ArrayList"/>
         <variable
             name="model"
-            type="com.esspresso.nocnaukowcwpk.main.profile.ProfileFragmentViewModel" />
+            type="com.esspresso.nocnaukowcwpk.ui.profile.ProfileFragmentViewModel" />
         
         <variable
             name="items"

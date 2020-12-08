@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.map
+package com.esspresso.nocnaukowcwpk.ui.map
 
 import android.os.Bundle
 import android.view.LayoutInflater

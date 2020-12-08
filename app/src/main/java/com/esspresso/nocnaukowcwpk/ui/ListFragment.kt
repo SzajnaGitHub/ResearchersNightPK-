@@ -1,10 +1,11 @@
-package com.esspresso.nocnaukowcwpk.main
+package com.esspresso.nocnaukowcwpk.ui
 
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
@@ -19,15 +21,25 @@ import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentListBinding
+import com.esspresso.nocnaukowcwpk.di.BluetoothState2
 import com.esspresso.nocnaukowcwpk.status.BluetoothBroadcastReceiver
 import com.esspresso.nocnaukowcwpk.status.LocationBroadCastReceiver
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import com.esspresso.nocnaukowcwpk.status.StatusManager
 import com.esspresso.nocnaukowcwpk.utils.DialogActivity
+import com.esspresso.nocnaukowcwpk.utils.postAction
 import com.esspresso.nocnaukowcwpk.utils.recyclerview.RecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,6 +58,9 @@ class ListFragment : Fragment() {
     internal lateinit var bluetoothReceiver: BluetoothBroadcastReceiver
     @Inject
     internal lateinit var locationReceiver: LocationBroadCastReceiver
+    @Inject
+    @BluetoothState2
+    internal lateinit var testChannel: ConflatedBroadcastChannel<Boolean>
 
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentListBinding
@@ -65,6 +80,12 @@ class ListFragment : Fragment() {
         getNearbyBeacons()
         setupButtons()
         subscribeToStatus()
+
+        lifecycleScope.launch {
+        testChannel.asFlow().collect {
+            println("TEKST GET ITEM $it")
+        }
+    }
     }
 
     override fun onStart() {
@@ -176,7 +197,7 @@ class ListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when {
-            requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkIfAllPermissionsGranted() -> Handler().postDelayed({ shouldShowPermissions() }, 200)
+            requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkIfAllPermissionsGranted() -> Handler(Looper.getMainLooper()).postDelayed({ shouldShowPermissions() }, 200)
             requestCode == SETTINGS_REQUEST_CODE -> startBeaconScan()
             requestCode == BEACON_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK -> deleteCurrentItem()
         }
@@ -214,9 +235,9 @@ class ListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         canUpdateList = true
-        Handler().postDelayed({
+        postAction(200) {
             slideBarLayout.visibility = View.VISIBLE
-        },200)
+        }
     }
 
     override fun onPause() {

@@ -1,7 +1,8 @@
-package com.esspresso.nocnaukowcwpk.core
+package com.esspresso.nocnaukowcwpk.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
@@ -10,21 +11,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.esspresso.db.userquestions.UserQuestionsDatabase
+import com.esspresso.db.userquestions.UserQuestionsDao
+import com.esspresso.nocnaukowcwpk.MenuItemModel
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
-import com.esspresso.nocnaukowcwpk.main.eventinfo.EventInfoFragment
-import com.esspresso.nocnaukowcwpk.main.ListFragment
-import com.esspresso.nocnaukowcwpk.main.SettingsFragment
-import com.esspresso.nocnaukowcwpk.main.barcode.BarCodeReaderFragment
-import com.esspresso.nocnaukowcwpk.main.map.MapFragment
-import com.esspresso.nocnaukowcwpk.main.profile.ProfileFragment
+import com.esspresso.nocnaukowcwpk.di.BluetoothState2
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
+import com.esspresso.nocnaukowcwpk.ui.barcode.BarCodeReaderFragment
+import com.esspresso.nocnaukowcwpk.ui.eventinfo.EventInfoFragment
+import com.esspresso.nocnaukowcwpk.ui.map.MapFragment
+import com.esspresso.nocnaukowcwpk.ui.profile.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     @Inject
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     internal lateinit var permissionManager: PermissionManager
     @Inject
-    internal lateinit var userQuestionsDatabase: UserQuestionsDatabase
+    internal lateinit var questionsDao: UserQuestionsDao
 
     private val disposables = CompositeDisposable()
     private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
@@ -46,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         setupTransitionListener()
         setupMenuBackClick()
         setupMenuOnClick()
+        (binding.mainActivityRoot.background as? TransitionDrawable?)?.startTransition(2000)
+        binding.moonView.startAnimation()
     }
 
     private fun setupMenu() {
@@ -105,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun transitionToStart() {
         hideFragmentContent()
-        motionLayout.transitionToEndState(R.id.start)
+        motionLayout.transitionToEndState(R.id.menu_state)
     }
 
     private fun removeCurrentFragment() {
@@ -127,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (motionLayout.currentState != R.id.start) {
+        if (motionLayout.currentState != R.id.menu_state) {
             transitionToStart()
         } else {
             super.onBackPressed()

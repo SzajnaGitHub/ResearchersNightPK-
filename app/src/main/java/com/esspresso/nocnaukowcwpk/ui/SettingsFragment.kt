@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main
+package com.esspresso.nocnaukowcwpk.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.databinding.FragmentSettingsBinding
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding

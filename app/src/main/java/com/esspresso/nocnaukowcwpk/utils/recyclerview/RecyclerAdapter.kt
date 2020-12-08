@@ -1,6 +1,5 @@
 package com.esspresso.nocnaukowcwpk.utils.recyclerview
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,6 +7,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.esspresso.nocnaukowcwpk.expiration.ExpirationHandler
 import com.esspresso.nocnaukowcwpk.utils.itemIndex
+import com.esspresso.nocnaukowcwpk.utils.postAction
 
 class RecyclerAdapter<T : RecyclerModel>(
     var items: ArrayList<T>,
@@ -76,7 +76,7 @@ class RecyclerAdapter<T : RecyclerModel>(
 
     fun addOrUpdateItem(item: T) {
         println("TEKST ADD ITEM $item")
-        Handler().postDelayed({ deleteExpiredItems() }, 10000)
+        postAction(10000) { deleteExpiredItems() }
         val itemIndex = items.itemIndex(item.getId())
         if (itemIndex != -1) {
             updateItem(itemIndex, item)

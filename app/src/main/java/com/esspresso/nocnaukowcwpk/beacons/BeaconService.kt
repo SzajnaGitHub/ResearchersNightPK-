@@ -5,13 +5,14 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.RemoteException
 import com.esspresso.nocnaukowcwpk.utils.createRegion
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.altbeacon.beacon.BeaconConsumer
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
 import javax.inject.Inject
 
 class BeaconService @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val monitorNotifier: BeaconMonitorNotifier,
     private val rangeNotifier: BeaconRangeNotifier
 ) : BeaconConsumer {

@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.map
+package com.esspresso.nocnaukowcwpk.ui.map
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,9 +11,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ui.IconGenerator
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class MarkerHelper @Inject constructor(val context: Context) {
+class MarkerHelper @Inject constructor(@ApplicationContext val context: Context) {
     private val markerIconGenerator by lazy(LazyThreadSafetyMode.NONE) { IconGenerator(context) }
 
     fun getBuildingMarkers(): List<MarkerOptions> {

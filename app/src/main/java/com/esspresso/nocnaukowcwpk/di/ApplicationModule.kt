@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.location.LocationManager
 import android.net.ConnectivityManager
-import com.esspresso.nocnaukowcwpk.core.App
+import android.util.Size
 import com.jakewharton.rxrelay3.PublishRelay
 import com.jakewharton.rxrelay3.Relay
 import com.squareup.moshi.Moshi
@@ -14,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.altbeacon.beacon.Beacon
 import javax.inject.Singleton
 
@@ -24,10 +25,6 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-    @Provides
-    @Singleton
-    fun provideContext(): Context = App.appContext
 
     @Provides
     @Singleton
@@ -46,11 +43,11 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideLocationManager(context: Context) = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    fun provideLocationManager(@ApplicationContext context: Context) = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     @Provides
     @Singleton
-    fun provideConnectivityManager(context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun provideConnectivityManager(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @Singleton
@@ -69,5 +66,13 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences("APP_KV_STORE", Context.MODE_PRIVATE)
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences = context.getSharedPreferences("APP_KV_STORE", Context.MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideScreenSize(@ApplicationContext context: Context): Size {
+        return context.resources.displayMetrics.let {
+            Size(it.widthPixels, it.heightPixels)
+        }
+    }
 }

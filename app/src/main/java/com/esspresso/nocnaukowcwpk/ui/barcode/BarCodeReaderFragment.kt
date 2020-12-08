@@ -1,16 +1,15 @@
-package com.esspresso.nocnaukowcwpk.main.barcode
+package com.esspresso.nocnaukowcwpk.ui.barcode
 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.esspresso.db.userquestions.UserQuestionsDatabase
+import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
@@ -18,6 +17,7 @@ import com.esspresso.nocnaukowcwpk.databinding.FragmentBarCodeReaderBinding
 import com.esspresso.nocnaukowcwpk.di.QRCodeImageBitmap
 import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import com.esspresso.nocnaukowcwpk.utils.DialogActivity
+import com.esspresso.nocnaukowcwpk.utils.postAction
 import com.jakewharton.rxrelay3.Relay
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,19 +29,15 @@ import javax.inject.Inject
 class BarCodeReaderFragment : Fragment() {
     @Inject
     internal lateinit var cameraManager: CameraManager
-
     @Inject
     internal lateinit var permissionManager: PermissionManager
-
     @Inject
     internal lateinit var beaconManager: BeaconManager
-
     @Inject
     @QRCodeImageBitmap
     internal lateinit var qrImageRelay: Relay<Bitmap>
-
     @Inject
-    internal lateinit var db: UserQuestionsDatabase
+    internal lateinit var questionsDao: UserQuestionsDao
 
     private lateinit var binding: FragmentBarCodeReaderBinding
     private val disposables = CompositeDisposable()
@@ -55,7 +51,7 @@ class BarCodeReaderFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Handler().postDelayed({ setupCamera() }, 1000)
+        postAction(1000) { setupCamera() }
     }
 
     private fun setupCamera() {
@@ -97,7 +93,7 @@ class BarCodeReaderFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkPermissionGranted(PermissionManager.CAMERA_PERMISSION)) {
-            Handler().postDelayed({ checkCameraPermission() }, 200)
+            postAction(200) { checkCameraPermission() }
         } else {
             setupCamera()
         }
@@ -112,7 +108,7 @@ class BarCodeReaderFragment : Fragment() {
 
     private fun subscribeToBeaconModelSubject() {
         cameraManager.beaconModelSubject.observeOn(AndroidSchedulers.mainThread()).subscribe { model ->
-            db.getUserQuestionsDao().getSingleQuestion(model.id.toString())
+            questionsDao.getSingleQuestion(model.id.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError {
@@ -120,10 +116,10 @@ class BarCodeReaderFragment : Fragment() {
                 }
                 .subscribe {
                     Toast.makeText(context, getString(R.string.text_points_already_collected), Toast.LENGTH_LONG).show()
-                    Handler().postDelayed({
+                    postAction(2000) {
                         cameraManager.closeCurrentImage()
                         binding.imageView.setImageDrawable(null)
-                    }, 2000)
+                    }
                 }
                 .let(disposables::add)
         }.let(disposables::add)

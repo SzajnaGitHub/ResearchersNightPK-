@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.barcode
+package com.esspresso.nocnaukowcwpk.views
 
 import android.content.Context
 import android.graphics.*
@@ -12,13 +12,14 @@ class QRTargetView(context: Context, attrs: AttributeSet?) : View(context, attrs
     private val rightRect = Rect(0, 0, 200, 200)
     private val clipPath = Path()
 
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.save()
-        drawTopSquares(canvas)
+        canvas.drawLeftTopAndRightBottomSquare()
+        canvas.drawRightTopAndLeftBottomSquare()
+    }
 
-        canvas.save()
+    private fun Canvas.drawRightTopAndLeftBottomSquare() {
+        save()
         clipPath.addRect(
             width - 200f,
             width * 0.03f,
@@ -26,9 +27,9 @@ class QRTargetView(context: Context, attrs: AttributeSet?) : View(context, attrs
             (height * 0.2f), Path.Direction.CW
         )
 
-        canvas.clipPath(clipPath, Region.Op.DIFFERENCE)
+        clipPath(clipPath, Region.Op.DIFFERENCE)
 
-        canvas.drawRect(rightRect.apply {
+        drawRect(rightRect.apply {
             left = width - 200
             top = 0
             right = width
@@ -36,23 +37,21 @@ class QRTargetView(context: Context, attrs: AttributeSet?) : View(context, attrs
         }, paint)
 
 
-        canvas.rotate(180f, width / 2f, height / 2f)
-        canvas.clipPath(clipPath, Region.Op.DIFFERENCE)
+        rotate(180f, width / 2f, height / 2f)
+        clipPath(clipPath, Region.Op.DIFFERENCE)
 
-        canvas.drawRect(rightRect.apply {
+        drawRect(rightRect.apply {
             left = width - 200
             top = 0
             right = width
             bottom = 200
         }, paint)
 
-
-        canvas.restore()
-
+        restore()
     }
 
-    private fun drawTopSquares(canvas: Canvas) {
-        canvas.save()
+    private fun Canvas.drawLeftTopAndRightBottomSquare() {
+        save()
         clipPath.addRect(
             width * 0.03f,
             width * 0.03f,
@@ -60,26 +59,24 @@ class QRTargetView(context: Context, attrs: AttributeSet?) : View(context, attrs
             (height * 0.2f), Path.Direction.CW
         )
 
-        canvas.clipPath(clipPath, Region.Op.DIFFERENCE)
+        clipPath(clipPath, Region.Op.DIFFERENCE)
 
-        canvas.drawRect(leftRect.apply {
+        drawRect(leftRect.apply {
             right = (width * 0.2).toInt()
             bottom = (width * 0.2).toInt()
         }, paint)
 
-        canvas.rotate(180f, width / 2f, height / 2f)
+        rotate(180f, width / 2f, height / 2f)
 
+        clipPath(clipPath, Region.Op.DIFFERENCE)
 
-        canvas.clipPath(clipPath, Region.Op.DIFFERENCE)
-
-
-        canvas.drawRect(leftRect.apply {
+        drawRect(leftRect.apply {
             right = (width * 0.2).toInt()
             bottom = (width * 0.2).toInt()
         }, paint)
-        canvas.restore()
+
+        restore()
     }
-
 
     init {
         paint.color = Color.WHITE

@@ -10,6 +10,7 @@ import com.esspresso.nocnaukowcwpk.utils.CategoryResolver.CATEGORY_SCIENCE
 import com.esspresso.nocnaukowcwpk.utils.CategoryResolver.CATEGORY_TECHNOLOGY
 import com.esspresso.nocnaukowcwpk.utils.CategoryResolver.CATEGORY_VEHICLES
 import com.esspresso.nocnaukowcwpk.utils.translateFromId
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -17,7 +18,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class QuestionManager @Inject constructor(private val remoteConfig: RemoteConfigManager, private val context: Context) {
+class QuestionManager @Inject constructor(private val remoteConfig: RemoteConfigManager, @ApplicationContext private val context: Context) {
 
     private lateinit var questionList: List<QuestionModel>
 

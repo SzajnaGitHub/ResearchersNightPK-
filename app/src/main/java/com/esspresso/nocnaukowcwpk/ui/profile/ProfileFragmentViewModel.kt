@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.profile
+package com.esspresso.nocnaukowcwpk.ui.profile
 
 data class ProfileFragmentViewModel(
     val userName: String,

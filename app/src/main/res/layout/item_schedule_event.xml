@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.esspresso.nocnaukowcwpk.main.eventinfo.EventInfoItemModel" />
+            type="com.esspresso.nocnaukowcwpk.ui.eventinfo.EventInfoItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

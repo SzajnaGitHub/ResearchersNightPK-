@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.main.eventinfo
+package com.esspresso.nocnaukowcwpk.ui.eventinfo
 
 import android.content.Context
 import androidx.annotation.Keep

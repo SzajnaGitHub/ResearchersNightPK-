@@ -4,19 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.esspresso.db.userquestions.UserQuestion
+import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.databinding.ActivityBeaconItemBinding
 import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.questions.QuestionModel
 import com.esspresso.nocnaukowcwpk.store.KeyValueStore
+import com.esspresso.nocnaukowcwpk.utils.postAction
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -33,7 +34,7 @@ class BeaconCardActivity : AppCompatActivity() {
     @Inject
     internal lateinit var store: KeyValueStore
     @Inject
-    internal lateinit var db: UserQuestionsDatabase
+    internal lateinit var userQuestionDAO: UserQuestionsDao
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.setContentView<ActivityBeaconItemBinding>(this, R.layout.activity_beacon_item) }
     private val disposables = CompositeDisposable()
@@ -53,11 +54,10 @@ class BeaconCardActivity : AppCompatActivity() {
             questionModel = questionManager.getQuestion(beaconId)
         )
         binding.model = model
-        Handler().postDelayed({
+        postAction(500){
             binding.background.visibility = View.VISIBLE
             binding.categoryText.visibility = View.VISIBLE
-        }, 500)
-
+        }
     }
 
     private fun setupBinding() {
@@ -85,7 +85,7 @@ class BeaconCardActivity : AppCompatActivity() {
     private fun submitAnswer(userAnsweredCorrectly: Boolean, model: QuestionModel) {
         if (!answerSubmitted) {
             answerSubmitted = true
-            db.getUserQuestionsDao().upsert(UserQuestion(id = model.id.toString(),questionAnsweredCorrectly = userAnsweredCorrectly, category = model.category, points = model.points))
+            userQuestionDAO.upsert(UserQuestion(id = model.id.toString(),questionAnsweredCorrectly = userAnsweredCorrectly, category = model.category, points = model.points))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

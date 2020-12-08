@@ -1,6 +1,6 @@
 package com.esspresso.nocnaukowcwpk.beacons
 
-import com.esspresso.db.userquestions.UserQuestionsDatabase
+import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.di.BeaconsInRange
 import com.jakewharton.rxrelay3.Relay
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class BeaconManager @Inject constructor(
     @BeaconsInRange private val beaconsInRange: Relay<Collection<Beacon>>,
     private val remoteConfig: RemoteConfigManager,
-    private val db: UserQuestionsDatabase
+    private val userQuestionsDao: UserQuestionsDao
 ) {
     var cachedBeacons = ArrayList<BeaconModel>()
 
@@ -31,10 +31,7 @@ class BeaconManager @Inject constructor(
         .map { ArrayList(it) }
         .observeOn(AndroidSchedulers.mainThread())
 
-    private fun getAnsweredQuestions() = db.getUserQuestionsDao().getAllQuestions()
+    private fun getAnsweredQuestions(): Observable<List<String>> = userQuestionsDao.getAllCorrectQuestionsIDS()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .map {
-            it.filter { question -> question.questionAnsweredCorrectly }.map { question -> question.id }
-        }
 }
