@@ -20,7 +20,6 @@
     <string name="company_logo_header">Powered by</string>
     <string name="action_submit_answer">Zatwierdź</string>
     <string name="action_collect_points">Zbierz punkty</string>
-    <string name="permission_required_camera">Wymagane pozwolenie na dostęp do aparatu</string>
     <string name="text_distance">Dystans</string>
     <string name="text_answered_questions">Odpowiedziane pytania:</string>
     <string name="text_total_points">Suma puntków:</string>
@@ -35,4 +34,16 @@
     <string name="question_technology_1">Sala, w której znajduje się symulator F-16 to.</string>
     <string name="text_tap_to_start_searching">Stuknij by zacząć wyszukiwanie</string>
     <string name="app_author">Autor: Marcin Szajna</string>
+
+    <!-- PERMISSIONS -->
+    <string name="permission_required_camera_text">Wymagane pozwolenie na dostęp do aparatu</string>
+    <string name="permission_location_header">Lokalizacja</string>
+    <string name="permission_required_location">Proszę zezwól aplikacji na korzystanie z lokalizacji w celu wyszukania pobliskich beaconów</string>
+    <string name="permission_location_settings">Aplikacja nie może wyszukać pobliskich beaconów bez wymaganego pozwolenia. Otwórz ustawienia aplikacji w celu zmodyfikowania pozwoleń.</string>
+    <string name="permission_camera_header">Kamera</string>
+    <string name="permission_required_camera">Prosze zezwól aplikacji na korzystanie z kamery w celu możliwości skanowania kodów QR</string>
+    <string name="permission_camera_settings">Aplikacja nie skanować kodów QR bez wymaganego pozwolenia. Otwórz ustawienia aplikacji w celu zmodyfikowania pozwoleń.</string>
+    <string name="researchers_night_name">Noc NAUKOWCÓW</string>
+
+
 </resources>

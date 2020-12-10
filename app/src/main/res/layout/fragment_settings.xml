@@ -19,6 +19,7 @@
             android:id="@+id/wm_logo"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/wm_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,7 @@
 
         <TextView
             android:id="@+id/version_text"
+            style="@style/Text.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -38,6 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Text.Black"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/app_author"
@@ -46,6 +49,7 @@
 
         <TextView
             android:id="@+id/company_logo_header"
+            style="@style/Text.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

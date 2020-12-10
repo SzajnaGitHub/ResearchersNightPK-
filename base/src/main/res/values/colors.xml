@@ -27,6 +27,9 @@
     <color name="day_gradient_top">#e57c7c</color>
     <color name="day_gradient_bottom">#e8b052</color>
 
+    <!-- TEXT -->
+    <color name="title_text_color">#000080</color>
+
     <!-- VIEWS -->
     <color name="moon_yellow">#feee54</color>
 

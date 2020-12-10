@@ -11,33 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.nocnaukowcwpk.MenuItemModel
 import com.esspresso.nocnaukowcwpk.R
-import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.ActivityMainBinding
-import com.esspresso.nocnaukowcwpk.di.BluetoothState2
-import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import com.esspresso.nocnaukowcwpk.ui.barcode.BarCodeReaderFragment
 import com.esspresso.nocnaukowcwpk.ui.eventinfo.EventInfoFragment
 import com.esspresso.nocnaukowcwpk.ui.map.MapFragment
 import com.esspresso.nocnaukowcwpk.ui.profile.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject
-    internal lateinit var remoteConfig: RemoteConfigManager
-    @Inject
-    internal lateinit var permissionManager: PermissionManager
-    @Inject
-    internal lateinit var questionsDao: UserQuestionsDao
-
-    private val disposables = CompositeDisposable()
     private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
     private val motionLayout by lazy(LazyThreadSafetyMode.NONE) { binding.root as MotionLayout }
     private var currentFragment: Fragment? = null
@@ -45,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupMenu()
-        permissionManager.init(this)
         setupTransitionListener()
         setupMenuBackClick()
         setupMenuOnClick()
@@ -142,11 +127,6 @@ class MainActivity : AppCompatActivity() {
     private fun MotionLayout.transitionToEndState(state: Int) {
         this.transitionToState(state)
         this.transitionToEnd()
-    }
-
-    override fun onDestroy() {
-        disposables.dispose()
-        super.onDestroy()
     }
 
     companion object {

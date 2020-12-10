@@ -39,6 +39,7 @@
 
         <TextView
             android:id="@+id/tap_explanation"
+            style="@style/Text.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -60,6 +61,7 @@
 
         <TextView
             android:id="@+id/warning_sign"
+            style="@style/Text.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="!"

@@ -134,7 +134,7 @@
         app:constraintSetEnd="@id/menu_state"
         app:constraintSetStart="@+id/start_state"
         app:autoTransition="animateToEnd"
-        app:duration="1000" />
+        app:duration="500" />
     <Transition
         app:constraintSetEnd="@id/map_square_end"
         app:constraintSetStart="@+id/menu_state"

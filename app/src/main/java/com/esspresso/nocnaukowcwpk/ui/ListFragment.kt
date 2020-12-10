@@ -13,7 +13,6 @@ import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.esspresso.nocnaukowcwpk.R
 import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
@@ -21,29 +20,21 @@ import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService
 import com.esspresso.nocnaukowcwpk.config.RemoteConfigManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentListBinding
-import com.esspresso.nocnaukowcwpk.di.BluetoothState2
 import com.esspresso.nocnaukowcwpk.status.BluetoothBroadcastReceiver
 import com.esspresso.nocnaukowcwpk.status.LocationBroadCastReceiver
-import com.esspresso.nocnaukowcwpk.status.PermissionManager
 import com.esspresso.nocnaukowcwpk.status.StatusManager
-import com.esspresso.nocnaukowcwpk.utils.DialogActivity
+import com.esspresso.nocnaukowcwpk.utils.PermissionUtility
 import com.esspresso.nocnaukowcwpk.utils.postAction
 import com.esspresso.nocnaukowcwpk.utils.recyclerview.RecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @Inject
     internal lateinit var beaconService: BeaconService
     @Inject
@@ -53,14 +44,9 @@ class ListFragment : Fragment() {
     @Inject
     internal lateinit var beaconManager: BeaconManager
     @Inject
-    internal lateinit var permissionManager: PermissionManager
-    @Inject
     internal lateinit var bluetoothReceiver: BluetoothBroadcastReceiver
     @Inject
     internal lateinit var locationReceiver: LocationBroadCastReceiver
-    @Inject
-    @BluetoothState2
-    internal lateinit var testChannel: ConflatedBroadcastChannel<Boolean>
 
     private val disposable = CompositeDisposable()
     private lateinit var binding: FragmentListBinding
@@ -80,12 +66,6 @@ class ListFragment : Fragment() {
         getNearbyBeacons()
         setupButtons()
         subscribeToStatus()
-
-        lifecycleScope.launch {
-        testChannel.asFlow().collect {
-            println("TEKST GET ITEM $it")
-        }
-    }
     }
 
     override fun onStart() {
@@ -106,12 +86,32 @@ class ListFragment : Fragment() {
         super.onStop()
     }
 
+    override fun onResume() {
+        super.onResume()
+        canUpdateList = true
+
+        postAction(200) {
+            slideBarLayout.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        canUpdateList = false
+    }
+
+    override fun onDestroy() {
+        statusManager.dispose()
+        disposable.clear()
+        super.onDestroy()
+    }
+
     private fun setupButtons() {
         binding.slideBar.scanImage.setOnClickListener {
-            if (permissionManager.checkIfAllPermissionsGranted()) {
+            if (PermissionUtility.hasBluetoothAndLocationPermissions(requireContext())) {
                 manageStates()
             } else {
-                shouldShowPermissions()
+                checkLocationPermission()
             }
         }
     }
@@ -145,20 +145,9 @@ class ListFragment : Fragment() {
         this.transitionToEnd()
     }
 
-    private fun shouldShowPermission(permission: String) {
-        if (!permissionManager.checkPermissionGranted(permission)) {
-            permissionManager.requestPermission(permission).subscribe({ granted ->
-                if (!granted) {
-                    permissionManager.shouldShowPermission(requireActivity(), PermissionManager.LOCATION_PERMISSION).subscribe { canAskAgain ->
-                        if (!canAskAgain) startActivity(DialogActivity.createPermissionIntent(requireContext(), permission, ::openSettings))
-                    }.let(disposable::add)
-                }
-            }, {}).let(disposable::add)
-        }
-    }
+    private fun checkLocationPermission() {
+        PermissionUtility.requestLocationPermission(this)
 
-    private fun openSettings() {
-        startActivityForResult(permissionManager.getApplicationSettingsIntent(this.requireContext()), SETTINGS_REQUEST_CODE)
     }
 
     private fun clickHandler(model: BeaconModel) {
@@ -169,7 +158,6 @@ class ListFragment : Fragment() {
         val activityOptions = ActivityOptions.makeSceneTransitionAnimation(requireActivity(), sharedImage, sharedImage?.transitionName)
         startActivityForResult(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId), BEACON_CARD_ACTIVITY_REQUEST_CODE, activityOptions.toBundle())
     }
-
 
 
     private fun deleteCurrentItem() {
@@ -187,7 +175,6 @@ class ListFragment : Fragment() {
 
     private fun subscribeToStatus() {
         statusManager.getCurrentStatus().subscribe({
-            println("TEKST STATUS $it")
             binding.statusModel = it
             if (it.isAllEnabled && slideBarLayout.currentState == R.id.error_state) slideBarLayout.transitionToEndState(R.id.startState)
             else if (!it.isAllEnabled) slideBarLayout.transitionToEndState(R.id.error_state)
@@ -197,8 +184,6 @@ class ListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when {
-            requestCode == SETTINGS_REQUEST_CODE && !permissionManager.checkIfAllPermissionsGranted() -> Handler(Looper.getMainLooper()).postDelayed({ shouldShowPermissions() }, 200)
-            requestCode == SETTINGS_REQUEST_CODE -> startBeaconScan()
             requestCode == BEACON_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK -> deleteCurrentItem()
         }
     }
@@ -227,33 +212,25 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun shouldShowPermissions() {
-        shouldShowPermission(PermissionManager.LOCATION_PERMISSION)
-        shouldShowPermission(PermissionManager.BLUETOOTH_PERMISSION)
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        manageStates()
     }
 
-    override fun onResume() {
-        super.onResume()
-        canUpdateList = true
-        postAction(200) {
-            slideBarLayout.visibility = View.VISIBLE
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).setRationale(R.string.permission_location_settings).setTitle(R.string.permission_location_header).build().show()
+        } else {
+            checkLocationPermission()
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        canUpdateList = false
-    }
-
-    override fun onDestroy() {
-        statusManager.dispose()
-        disposable.clear()
-        super.onDestroy()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     companion object {
         private const val BEACON_CARD_ACTIVITY_REQUEST_CODE = 50
-        private const val SETTINGS_REQUEST_CODE = 30
         fun newInstance() = ListFragment()
     }
 }

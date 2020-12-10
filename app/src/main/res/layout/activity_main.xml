@@ -3,10 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/main_activity_root"
         android:layout_width="match_parent"
@@ -16,12 +12,10 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/Text"
+            style="@style/Text.H1"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Noc NAUKOWCÓW"
-            android:textSize="30sp"
-            android:fontFamily="@font/texturina_regular"
+            android:text="@string/researchers_night_name"
             android:layout_marginTop="30dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="parent"

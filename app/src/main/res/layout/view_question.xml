@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/Text.Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,6 +34,7 @@
 
             <RadioButton
                 android:id="@+id/radio_option_1"
+                style="@style/Text.Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{model.answerA}"
@@ -40,6 +42,7 @@
 
             <RadioButton
                 android:id="@+id/radio_option_2"
+                style="@style/Text.Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{model.answerB}"
@@ -47,6 +50,7 @@
 
             <RadioButton
                 android:id="@+id/radio_option_3"
+                style="@style/Text.Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{model.answerC}"
@@ -54,6 +58,7 @@
 
             <RadioButton
                 android:id="@+id/radio_option_4"
+                style="@style/Text.Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{model.answerD}"

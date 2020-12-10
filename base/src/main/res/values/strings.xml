@@ -44,7 +44,16 @@
     <string name="action_submit_answer">Submit</string>
     <string name="action_collect_points">collect points</string>
 
-    <string name="permission_required_camera">Camera permission required</string>
+    <!-- PERMISSIONS -->
+    <string name="permission_required_camera_text">Camera permission required</string>
+    <string name="permission_location_header">Location Permission</string>
+    <string name="permission_required_location">Please enable location permission for app to scan nearby beacons</string>
+    <string name="permission_location_settings">This app can not search for beacons without the requested permission. Open the app settings screen to modify app permissions.</string>
+    <string name="permission_camera_header">Camera Permission</string>
+    <string name="permission_required_camera">Please enable camera permission for app to use QR scanner</string>
+    <string name="permission_camera_settings">This app can not scan QR codes without the requested permission. Open the app settings screen to modify app permissions.</string>
+
+
     <string name="text_status">Status</string>
     <string name="text_distance">Distance</string>
     <string name="text_answered_questions">Answered questions:</string>
@@ -54,5 +63,6 @@
     <string name="text_points_already_collected">Points already collected</string>
     <string name="text_tap_to_start_searching">Tap to start searching</string>
     <string name="app_author">Author: Marcin Szajna</string>
+    <string name="researchers_night_name">Researcher\'s Night</string>
 
 </resources>
