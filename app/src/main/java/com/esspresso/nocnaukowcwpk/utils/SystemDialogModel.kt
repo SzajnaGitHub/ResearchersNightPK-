@@ -1,5 +1,7 @@
 package com.esspresso.nocnaukowcwpk.utils
 
+import android.content.Context
+import com.esspresso.nocnaukowcwpk.R
 import java.io.Serializable
 
 data class SystemDialogModel(
@@ -8,8 +10,13 @@ data class SystemDialogModel(
     val buttonText: String
 ) : Serializable {
     companion object {
-        fun createNoBluetoothModel() = SystemDialogModel("Warning", "Bluetooth is turned off, please turn it on to continue searching for treasures", "ok")
-        fun createNoLocationModel() = SystemDialogModel("Warning", "Location is turned off, please turn it on to continue searching for treasures", "ok")
-        fun createNoInternetModel() = SystemDialogModel("Warning", "Network connection is turned off, please turn it on to continue searching for treasures", "ok")
+        fun createNoBluetoothModel(context: Context) =
+            SystemDialogModel(context.getString(R.string.warning_title), context.getString(R.string.dialog_bluetooth_off), context.getString(R.string.action_ok))
+
+        fun createNoLocationModel(context: Context) =
+            SystemDialogModel(context.getString(R.string.warning_title), context.getString(R.string.dialog_localisation_off), context.getString(R.string.action_ok))
+
+        fun createNoInternetModel(context: Context) =
+            SystemDialogModel(context.getString(R.string.warning_title), context.getString(R.string.dialog_network_off), context.getString(R.string.action_ok))
     }
 }

@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.nocnaukowcwpk.R
-import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
 import com.esspresso.nocnaukowcwpk.beacons.BeaconModel
 import com.esspresso.nocnaukowcwpk.beacons.BeaconService

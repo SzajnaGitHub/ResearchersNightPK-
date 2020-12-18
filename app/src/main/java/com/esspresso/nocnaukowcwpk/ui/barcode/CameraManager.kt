@@ -79,6 +79,7 @@ class CameraManager @Inject constructor(
                 takePhoto(imageCapture) { outputProxy ->
                     val outputImage = outputProxy.image?.toBitmap() ?: return@takePhoto
                     barCodeManager.scanImage(InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees), imageProxy) {
+                        println("TEKST MODEL RECEIVED AND PASSED $it")
                         beaconModelSubject.onNext(it)
                         //qrImageRelay.accept(outputImage)
                     }

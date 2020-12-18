@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity" />
         <activity
-            android:name=".beacons.BeaconCardActivity"
+            android:name=".ui.BeaconCardActivity"
             android:theme="@style/AppTheme.Translucent.ImageTransition" />
         <activity
             android:name=".utils.DialogActivity"

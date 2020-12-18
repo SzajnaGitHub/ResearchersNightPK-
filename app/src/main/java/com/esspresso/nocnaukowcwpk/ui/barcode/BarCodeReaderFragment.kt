@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.esspresso.db.userquestions.UserQuestionsDao
 import com.esspresso.nocnaukowcwpk.R
-import com.esspresso.nocnaukowcwpk.beacons.BeaconCardActivity
+import com.esspresso.nocnaukowcwpk.ui.BeaconCardActivity
 import com.esspresso.nocnaukowcwpk.beacons.BeaconManager
 import com.esspresso.nocnaukowcwpk.databinding.FragmentBarCodeReaderBinding
 import com.esspresso.nocnaukowcwpk.di.QRCodeImageBitmap
@@ -88,19 +88,21 @@ class BarCodeReaderFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun subscribeToBeaconModelSubject() {
         cameraManager.beaconModelSubject.observeOn(AndroidSchedulers.mainThread()).subscribe { model ->
+            println("TEKST MODEL FINAL RECEIVED")
             questionsDao.getSingleQuestion(model.id.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError {
-                    startActivity(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId))
-                }
-                .subscribe {
+                .subscribe ({
+                    println("TEKST POINTS ALREADY COLLECTED")
                     Toast.makeText(context, getString(R.string.text_points_already_collected), Toast.LENGTH_LONG).show()
                     postAction(2000) {
                         cameraManager.closeCurrentImage()
                         binding.imageView.setImageDrawable(null)
                     }
-                }
+                }, {
+                    println("TEKST ERROR ")
+                    startActivity(BeaconCardActivity.createIntent(requireContext(), model.id, model.categoryId))
+                })
                 .let(disposables::add)
         }.let(disposables::add)
     }

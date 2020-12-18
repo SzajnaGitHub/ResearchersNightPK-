@@ -1,4 +1,4 @@
-package com.esspresso.nocnaukowcwpk.beacons
+package com.esspresso.nocnaukowcwpk.ui
 
 import android.app.Activity
 import android.content.Context
@@ -11,8 +11,9 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.esspresso.db.userquestions.UserQuestion
 import com.esspresso.db.userquestions.UserQuestionsDao
-import com.esspresso.db.userquestions.UserQuestionsDatabase
 import com.esspresso.nocnaukowcwpk.R
+import com.esspresso.nocnaukowcwpk.beacons.BeaconCardViewModel
+import com.esspresso.nocnaukowcwpk.beacons.BeaconId
 import com.esspresso.nocnaukowcwpk.databinding.ActivityBeaconItemBinding
 import com.esspresso.nocnaukowcwpk.questions.QuestionManager
 import com.esspresso.nocnaukowcwpk.questions.QuestionModel

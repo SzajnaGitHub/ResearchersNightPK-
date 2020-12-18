@@ -17,9 +17,18 @@
     <string name="menu_item_profile">Profil</string>
     <string name="menu_item_info">Informacje</string>
 
-    <string name="company_logo_header">Powered by</string>
+    <!-- BUTTONS -->
     <string name="action_submit_answer">Zatwierdź</string>
     <string name="action_collect_points">Zbierz punkty</string>
+    <string name="action_ok">OK</string>
+
+    <!-- DIALOG -->
+    <string name="warning_title">Uwaga</string>
+    <string name="dialog_bluetooth_off">Bluetooth jest wyłączone, proszę włącz go aby skaner mógł działać poprawnie.</string>
+    <string name="dialog_localisation_off">Lokalizacja jest wyłączona, proszę włącz ją aby skaner mógł działać poprawnie.</string>
+    <string name="dialog_network_off">Połączenie interenetowe jest wyłączone, proszę włącz je aby aplikacja mogła działać poprawnie.</string>
+
+    <string name="company_logo_header">Powered by</string>
     <string name="text_distance">Dystans</string>
     <string name="text_answered_questions">Odpowiedziane pytania:</string>
     <string name="text_total_points">Suma puntków:</string>
@@ -44,6 +53,5 @@
     <string name="permission_required_camera">Prosze zezwól aplikacji na korzystanie z kamery w celu możliwości skanowania kodów QR</string>
     <string name="permission_camera_settings">Aplikacja nie skanować kodów QR bez wymaganego pozwolenia. Otwórz ustawienia aplikacji w celu zmodyfikowania pozwoleń.</string>
     <string name="researchers_night_name">Noc NAUKOWCÓW</string>
-
 
 </resources>

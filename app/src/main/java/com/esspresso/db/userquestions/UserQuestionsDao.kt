@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface UserQuestionsDao {
@@ -21,7 +21,7 @@ interface UserQuestionsDao {
     fun getAllCorrectQuestionsIDS(): Observable<List<String>>
 
     @Query("SELECT * FROM user_questions WHERE id LIKE :questionId")
-    fun getSingleQuestion(questionId: String): Maybe<UserQuestion>
+    fun getSingleQuestion(questionId: String): Single<UserQuestion>
 
     @Query("DELETE FROM user_questions")
     fun clearDatabase(): Completable

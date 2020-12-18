@@ -31,7 +31,7 @@ class BarCodeManager @Inject constructor(private val remoteConfig: RemoteConfigM
         barCodes.forEach {
             when (it.valueType) {
                 Barcode.TYPE_TEXT -> {
-                    println("TEKST ${remoteConfig.getBeacons().get(1).id.toString()}")
+                    println("TEKST ${remoteConfig.getBeacons()[1].id}")
                     val model = remoteConfig.getBeacons().find { beacon -> beacon.id.toString() == it.displayValue } ?: return
 
                     println("TEKST TYPE TEXT VALUE ${it.displayValue} $model")

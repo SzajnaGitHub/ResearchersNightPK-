@@ -18,6 +18,7 @@ class DialogActivity : AppCompatActivity() {
         val model = (intent.getSerializableExtra(MODEL) as? SystemDialogModel)
         binding.model = model
         binding.background.setOnClickListener { finishDialog() }
+        binding.button.setOnClickListener { finishDialog() }
     }
 
     private fun finishDialog() {
@@ -29,8 +30,8 @@ class DialogActivity : AppCompatActivity() {
         private const val MODEL = "model"
         private fun createIntent(context: Context) = Intent(context, DialogActivity::class.java)
 
-        fun createNoBluetoothIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoBluetoothModel()) }
-        fun createNoLocationIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoLocationModel()) }
-        fun createNoInternetIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoInternetModel()) }
+        fun createNoBluetoothIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoBluetoothModel(context)) }
+        fun createNoLocationIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoLocationModel(context)) }
+        fun createNoInternetIntent(context: Context) = createIntent(context).apply { putExtra(MODEL, SystemDialogModel.createNoInternetModel(context)) }
     }
 }
